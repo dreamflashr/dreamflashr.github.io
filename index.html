@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DREAMFLASHER</title>
+  
+  <!-- Подключаем готический шрифт из Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ФОНОВОЕ ВИДЕО */
+    .video-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -2;
+      filter: brightness(0.4) contrast(1.2); /* Затемнение, чтобы текст читался */
+    }
+
+    /* ОВЕРЛЕЙ С ЭФФЕКТОМ ГРАДИЕНТА И СЕТКИ */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.85) 100%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* ГОТИЧЕСКИЙ ЗАГОЛОВОК */
+    .header-title {
+      font-family: 'UnifrakturMaguntia', cursive;
+      font-size: 5rem;
+      text-align: center;
+      margin-top: 50px;
+      color: #ffffff;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.6), 
+                   0 0 30px rgba(180, 0, 255, 0.4);
+      letter-spacing: 2px;
+      user-select: none;
+    }
+
+    /* КАСТОМНЫЙ ПЛЕЕР ТРЕКА */
+    .audio-control {
+      margin-top: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      padding: 10px 24px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .audio-control:hover {
+      border-color: #fff;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+      transform: scale(1.03);
+    }
+
+    .audio-control span {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* КОНТЕЙНЕР ДЛЯ БУДУЩЕГО ПОРТФОЛИО */
+    .content {
+      margin-top: 60px;
+      width: 90%;
+      max-width: 800px;
+      z-index: 1;
+      text-align: center;
+    }
+
+    /* Адаптив для мобилок */
+    @media (max-width: 768px) {
+      .header-title {
+        font-size: 3rem;
+        margin-top: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Зацикленное видео на фоне -->
+  <video class="video-bg" autoplay loop muted playsinline>
+    <source src="bg-video.mp4" type="video/mp4">
+  </video>
+
+  <!-- Затемняющий оверлей -->
+  <div class="overlay"></div>
+
+  <!-- Никнейм вверху -->
+  <h1 class="header-title">dreamflasher</h1>
+
+  <!-- Аудио-плеер для трека -->
+  <div class="audio-control" id="playBtn">
+    <span id="playIcon">▶</span>
+    <span id="playText">DREAMFLASHER — JANE REMOVER</span>
+  </div>
+
+  <audio id="bgMusic" loop>
+    <source src="dreamflasher.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Сюда потом закинешь ссылки / проекты / контакты -->
+  <div class="content">
+    <!-- Место под твои будущие карточки или инфу -->
+  </div>
+
+  <script>
+    const music = document.getElementById('bgMusic');
+    const playBtn = document.getElementById('playBtn');
+    const playIcon = document.getElementById('playIcon');
+
+    let isPlaying = false;
+
+    playBtn.addEventListener('click', () => {
+      if (!isPlaying) {
+        music.play();
+        playIcon.textContent = '❚❚';
+        isPlaying = true;
+      } else {
+        music.pause();
+        playIcon.textContent = '▶';
+        isPlaying = false;
+      }
+    });
+  </script>
+</body>
+</html>
