@@ -107,7 +107,7 @@
     }
 
     /* ГОТИЧЕСКИЙ ЗАГОЛОВОК С ОГНЕМ */
-    .header-title {
+.header-title {
       font-family: 'Royal2', sans-serif;
       font-size: 5.5rem;
       text-align: center;
@@ -115,8 +115,26 @@
       user-select: none;
       text-transform: uppercase;
       letter-spacing: 3px;
-      color: #fffde8;
-      animation: fire 1.5s infinite linear;
+
+      /* 1. Путь к твоей гифке огня */
+      background-image: url('fire.gif');
+
+      /* 2. Размножаем гифку плиткой по всему тексту */
+      background-repeat: repeat;
+
+      /* 3. Размер одного элемента гифки (регулируй: например 80px, 120px или 200px) */
+      background-size: 100px auto; 
+
+      /* 4. Вырезаем гифку ровно по форме букв */
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      /* 5. Делаем сам текст прозрачным, чтобы был виден только огонь */
+      color: transparent;
+
+      /* Отключаем старое свечение, чтобы огонь читал идеально */
+      text-shadow: none; 
+      animation: none; 
     }
 
     /* АНИМАЦИЯ ПЛАМЕНИ */
