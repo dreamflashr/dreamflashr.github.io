@@ -5,8 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DREAMFLASHER</title>
 
+  <!-- Запасной готический шрифт с Google Fonts (если local Royal2.ttf не подгрузился) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap">
+
   <style>
-    /* Подключаем шрифт Royal2 из локального файла */
+    /* Подключаем шрифт Royal2 */
     @font-face {
       font-family: 'Royal2';
       src: url('Royal2.ttf') format('truetype'),
@@ -24,13 +27,14 @@
     body {
       background-color: #000;
       color: #fff;
-      font-family: Arial, sans-serif;
-      overflow: hidden;
+      font-family: monospace, monospace;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
+      padding: 40px 20px;
+      overflow-x: hidden;
     }
 
     /* ЭКРАН ИНТРО (ЗАСТАВКА) */
@@ -83,7 +87,7 @@
       50% { opacity: 0.8; }
     }
 
-    /* ФОНОВОЕ ВИДЕО И ОВЕРЛЕЙ */
+    /* ФОНОВОЕ ВИДЕО */
     .video-bg {
       position: fixed;
       top: 0;
@@ -101,133 +105,153 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: radial-gradient(circle, transparent 30%, rgba(0, 0, 0, 0.9) 100%);
+      background: radial-gradient(circle, transparent 30%, rgba(0, 0, 0, 0.85) 100%);
       z-index: -1;
       pointer-events: none;
     }
 
-    /* ГОТИЧЕСКИЙ ЗАГОЛОВОК С ОГНЕМ */
-.header-title {
-      font-family: 'Royal2', sans-serif;
-      font-size: 5.5rem;
+    /* ГОТИЧЕСКИЙ ЗАГОЛОВОК С ОГНЕННОЙ GIF-ТЕКСТУРОЙ */
+    .header-title {
+      font-family: 'Royal2', 'Pirata One', serif;
+      font-size: 5rem;
       text-align: center;
-      margin-top: 60px;
+      margin-bottom: 25px;
       user-select: none;
       text-transform: uppercase;
-      letter-spacing: 3px;
+      letter-spacing: 4px;
 
-      /* 1. Путь к твоей гифке огня */
+      /* 1. Наложение текстуры огня (pixel-fire.gif) */
       background-image: url('fire2.gif');
-
-      /* 2. Размножаем гифку плиткой по всему тексту */
       background-repeat: repeat;
-
-      /* 3. Размер одного элемента гифки (регулируй: например 80px, 120px или 200px) */
-      background-size: 100px auto; 
-
-      /* 4. Вырезаем гифку ровно по форме букв */
+      background-size: 120px auto;
+      background-position: center;
       -webkit-background-clip: text;
       background-clip: text;
-
-      /* 5. Делаем сам текст прозрачным, чтобы был виден только огонь */
       color: transparent;
 
-      /* Отключаем старое свечение, чтобы огонь читал идеально */
-      text-shadow: none; 
-      animation: none; 
+      /* 2. Трёхслойное огненное свечение вокруг букв */
+      filter: 
+        drop-shadow(0 0 8px #ffdc17)
+        drop-shadow(0 0 20px #ff9000)
+        drop-shadow(0 -10px 35px #ff3600);
+
+      /* 3. Пульсация пламени */
+      animation: firePulse 1.8s infinite alternate ease-in-out;
+      image-rendering: pixelated;
     }
 
-    /* АНИМАЦИЯ ПЛАМЕНИ */
-    @keyframes fire {
-      0%, 100% {
-        text-shadow: 
-          0 0 10px #fff,
-          0 0 20px #fff,
-          0 -5px 25px #ffdc17,
-          0 -10px 40px #ff9000,
-          0 -15px 55px #ff9000,
-          0 -20px 70px #ff3600,
-          0 -25px 90px #ff3600;
+    /* Анимация изменения интенсивности свечения огня */
+    @keyframes firePulse {
+      0% {
+        filter: 
+          drop-shadow(0 0 6px #ffdc17)
+          drop-shadow(0 0 15px #ff9000)
+          drop-shadow(0 -5px 25px #ff3600);
       }
-      20% {
-        text-shadow: 
-          0 0 10px #fff,
-          0 0 20px #fff,
-          -1px -7px 27px #ffdc17,
-          -2px -12px 42px #ff9000,
-          -2px -17px 57px #ff9000,
-          -4px -22px 72px #ff3600,
-          -4px -27px 92px #ff3600;
-      }
-      40% {
-        text-shadow: 
-          0 0 10px #fff,
-          0 0 20px #fff,
-          1px -6px 30px #ffdc17,
-          2px -11px 45px #ff9000,
-          3px -16px 60px #ff9000,
-          4px -21px 75px #ff3600,
-          5px -26px 95px #ff3600;
-      }
-      60% {
-        text-shadow: 
-          0 0 10px #fff,
-          0 0 20px #fff,
-          -2px -8px 32px #ffdc17,
-          -3px -13px 48px #ff9000,
-          -4px -18px 63px #ff9000,
-          -6px -23px 78px #ff3600,
-          -7px -28px 98px #ff3600;
-      }
-      80% {
-        text-shadow: 
-          0 0 10px #fff,
-          0 0 20px #fff,
-          2px -5px 28px #ffdc17,
-          3px -10px 43px #ff9000,
-          4px -15px 58px #ff9000,
-          6px -20px 73px #ff3600,
-          7px -25px 93px #ff3600;
+      100% {
+        filter: 
+          drop-shadow(0 0 12px #ffee75)
+          drop-shadow(0 0 30px #ff7700)
+          drop-shadow(0 -15px 45px #dd1100);
       }
     }
 
-    /* АУДИОПЛЕЕР */
+    /* ЦЕНТРАЛЬНАЯ КАРТОЧКА */
+    .main-card {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(10, 10, 10, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.9), inset 0 0 15px rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(12px);
+      border-radius: 8px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+      z-index: 5;
+    }
+
     .audio-control {
-      margin-top: 25px;
-      background: rgba(0, 0, 0, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(10px);
-      padding: 12px 28px;
-      border-radius: 30px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 12px 20px;
+      border-radius: 4px;
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 12px;
       cursor: pointer;
-      transition: all 0.3s ease;
-      z-index: 10;
+      transition: all 0.2s ease;
     }
 
     .audio-control:hover {
+      background: rgba(255, 255, 255, 0.12);
       border-color: #fff;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-      transform: scale(1.03);
     }
 
     .audio-control span {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 1.5px;
     }
 
-    /* АДАПТИВ */
-    @media (max-width: 768px) {
-      .header-title {
-        font-size: 3.2rem;
-        margin-top: 40px;
-        animation-duration: 1s;
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    }
+
+    .links-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .links-title {
+      font-size: 0.7rem;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    .link-btn {
+      width: 100%;
+      display: block;
+      text-align: center;
+      padding: 12px;
+      color: #ccc;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px dashed rgba(255, 255, 255, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    .link-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      border-style: solid;
+      border-color: #fff;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 10px;
       }
-      .lyric-line {
-        font-size: 1.1rem;
+      .header-title {
+        font-size: 2.8rem;
+      }
+      .main-card {
+        padding: 20px;
       }
     }
   </style>
@@ -241,21 +265,43 @@
     <div class="click-hint">[ кликни в любом месте ]</div>
   </div>
 
-  <!-- Видео-фон -->
-  <video class="video-bg" autoplay loop muted playsinline>
-    <source src="bg-video.mp4" type="video/mp4">
+  <!-- Фоновое видео -->
+  <video class="video-bg" id="bgVideo" autoplay loop muted playsinline webkit-playsinline preload="auto">
+    <source src="bg-video.webm" type="video/mp4">
   </video>
 
   <div class="overlay"></div>
 
-  <!-- Ник с огненным эффектом -->
-  <h1 class="header-title">dreamflasher</h1>
+  <!-- Огненный готический заголовок -->
+  <h1 class="header-title">DREAMFLASHER</h1>
 
-  <!-- Аудиоплеер -->
-  <div class="audio-control" id="playBtn">
-    <span id="playIcon">❚❚</span>
-    <span id="playText">DREAMFLASHER — JANE REMOVER</span>
-  </div>
+  <!-- Центральная рабочая область -->
+  <main class="main-card">
+    
+    <div class="audio-control" id="playBtn">
+      <span id="playIcon">❚❚</span>
+      <span id="playText">DREAMFLASHER — JANE REMOVER</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="links-section">
+      <div class="links-title">// LINKS & SOCIALS</div>
+      
+      <a href="https://github.com/dreamflashr/dreamflashr.github.io" target="_blank" class="link-btn">
+        [ SOURCE REPOSITORY ]
+      </a>
+      
+      <a href="https://soundcloud.com" target="_blank" class="link-btn">
+        [ SOUNDCLOUD ]
+      </a>
+      
+      <a href="https://t.me" target="_blank" class="link-btn">
+        [ TELEGRAM ]
+      </a>
+    </div>
+
+  </main>
 
   <audio id="bgMusic" loop>
     <source src="dreamflasher.mp3" type="audio/mpeg">
@@ -264,24 +310,25 @@
   <script>
     const introScreen = document.getElementById('intro-screen');
     const music = document.getElementById('bgMusic');
+    const video = document.getElementById('bgVideo');
     const playBtn = document.getElementById('playBtn');
     const playIcon = document.getElementById('playIcon');
     const line1 = document.getElementById('line1');
     const line2 = document.getElementById('line2');
 
-    // Появление строчек текста
     setTimeout(() => line1.classList.add('active'), 600);
     setTimeout(() => line2.classList.add('active'), 1800);
 
-    // Клик снимает интро и включает автоповтор трека
     introScreen.addEventListener('click', () => {
       music.play();
+      if (video) {
+        video.play().catch(() => {});
+      }
       introScreen.style.opacity = '0';
       introScreen.style.visibility = 'hidden';
       document.body.style.overflow = 'auto';
     });
 
-    // Кнопка паузы
     let isPlaying = true;
     playBtn.addEventListener('click', () => {
       if (!isPlaying) {
