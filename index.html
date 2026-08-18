@@ -5,20 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DREAMFLASHER | PORTFOLIO</title>
 
+  <!-- Шрифты -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    /* === ПАЛИТРА "VIBECODED" (Graphite + Cyber Cyan) === */
+    /* === ПАЛИТРА "VIBECODED" === */
     :root {
-      --bg-main: #09090b; /* Глубокий графит */
-      --bg-card: #111113; /* Чуть светлее для карточек */
-      --bg-black: #000000; /* Глухой черный для футера */
-      --accent-neon: #00e5ff; /* Яркий кибер-голубой */
-      --text-main: #f4f4f5; /* Чистый белый с пепельным оттенком */
-      --text-muted: #a1a1aa; /* Серый для описаний */
-      --border-color: rgba(255, 255, 255, 0.08); /* Тонкие рамки */
+      --bg-main: #09090b;
+      --bg-card: #111113;
+      --bg-black: #000000;
+      --accent-neon: #00e5ff;
+      --text-main: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --border-color: rgba(255, 255, 255, 0.08);
+      
+      /* Переменная для идеального выравнивания по левому краю */
+      --hero-pad-left: calc(10% + 20px);
     }
 
     * {
@@ -54,15 +58,15 @@
       border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
-      justify-content: flex-start; /* Контент прижат к верху */
-      padding-top: 8vh;
+      justify-content: flex-start;
+      padding-top: 0; /* Убрали отступ, чтобы видео прилипло к верху */
       z-index: 10;
     }
 
-    /* Неоновое свечение (теперь голубое) */
+    /* Неоновое свечение */
     .neon-glow {
       position: absolute;
-      top: 15%;
+      top: 20%;
       left: 40%;
       transform: translate(-50%, -50%);
       width: 300px;
@@ -77,18 +81,22 @@
     .hero-container {
       position: relative;
       z-index: 10;
-      padding-left: 10%;
+      width: 100%;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
     }
 
-    /* === БЛОК DREAM (С видео и стеклом) === */
+    /* === БЛОК DREAM (Видео на всю ширину и до верха) === */
     .dream-box {
       position: relative;
-      display: inline-block;
-      overflow: hidden; /* Обрезает видео ровно по рамке слова */
-      margin-bottom: -5px; 
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-top: 10vh; /* Задаем высоту блока сверху */
+      padding-bottom: 5px; /* Отступ до слова flashr */
+      overflow: hidden;
     }
 
     .dream-video {
@@ -99,18 +107,29 @@
       height: 100%;
       object-fit: cover;
       z-index: 1;
-      filter: brightness(0.6) contrast(1.2); /* Чуть темним видео, чтобы стекло выделялось */
+      filter: brightness(0.6) contrast(1.2);
+    }
+
+    /* Нижний градиент на видео, чтобы переход к черному фону был мягче */
+    .dream-video-gradient {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background: linear-gradient(to top, var(--bg-main), transparent);
+      z-index: 2;
     }
 
     .dream-title {
       position: relative;
-      z-index: 2;
+      z-index: 3;
       font-family: 'Montserrat', sans-serif;
       font-size: clamp(4rem, 6vw, 6.5rem);
       font-weight: 900;
-      line-height: 1;
+      line-height: 0.9;
       text-transform: uppercase;
-      padding: 10px 20px; 
+      padding-left: var(--hero-pad-left); /* Выравнивание */
       
       /* ЭФФЕКТ СТЕКЛЯННЫХ БУКВ ПОВЕРХ ВИДЕО */
       color: rgba(255, 255, 255, 0.15); 
@@ -130,8 +149,9 @@
       color: var(--text-main); 
       text-transform: uppercase;
       letter-spacing: -2px;
+      padding-left: var(--hero-pad-left); /* Идеально ровно под DREAM */
       margin-bottom: 25px;
-      padding-left: 20px; 
+      margin-top: -5px; /* Слегка прижимаем к верхнему блоку */
     }
 
     .portfolio-badge {
@@ -146,7 +166,7 @@
       padding: 8px 16px;
       text-transform: uppercase;
       letter-spacing: 2px;
-      margin-left: 20px;
+      margin-left: var(--hero-pad-left);
     }
 
     /* === ПРАВАЯ РАБОЧАЯ ЗОНА === */
@@ -198,7 +218,7 @@
       width: 100%;
       height: 3px;
       background-color: var(--accent-neon);
-      box-shadow: 0 -2px 10px rgba(0, 229, 255, 0.5); /* Голубое свечение линии */
+      box-shadow: 0 -2px 10px rgba(0, 229, 255, 0.5); 
     }
 
     /* === КОНТЕНТ ВКЛАДОК === */
@@ -253,7 +273,7 @@
     }
 
     .repo-card:hover {
-      background: rgba(0, 229, 255, 0.05); /* Легкая голубая заливка */
+      background: rgba(0, 229, 255, 0.05); 
       border-color: var(--accent-neon);
       transform: translateX(8px);
       box-shadow: 0 10px 25px rgba(0,0,0,0.5);
@@ -365,12 +385,13 @@
         position: relative;
         width: 100%;
         height: auto;
-        padding: 60px 0;
+        padding: 0;
+        padding-bottom: 40px;
         border-right: none;
         border-bottom: 1px solid var(--border-color);
       }
       .hero-container {
-        padding-left: 6%;
+        padding-left: 0;
       }
       .main-content {
         margin-left: 0;
@@ -401,23 +422,29 @@
 <body>
 
   <div class="layout">
+    <!-- Левая панель -->
     <aside class="sidebar">
       <div class="neon-glow"></div>
       
+      <!-- Контейнер с заголовком -->
       <div class="hero-container">
         
+        <!-- Блок DREAM (Ширина 100%, видео до самого верха) -->
         <div class="dream-box">
           <video class="dream-video" autoplay loop muted playsinline>
             <source src="bg-video.mp4" type="video/mp4">
           </video>
+          <div class="dream-video-gradient"></div> <!-- Чтобы видео плавно уходило в фон снизу -->
           <h1 class="dream-title">Dream</h1>
         </div>
         
+        <!-- Текст FLASHR на графитовом фоне -->
         <h1 class="flashr-title">flashr.</h1>
         <div class="portfolio-badge">Portfolio</div>
       </div>
     </aside>
 
+    <!-- Правая панель с контентом -->
     <main class="main-content">
       <nav class="top-nav">
         <button class="nav-btn active" data-target="about">about me</button>
@@ -458,6 +485,7 @@
     </main>
   </div>
 
+  <!-- Корпоративный черный подвал на всю ширину с надписями -->
   <footer class="corporate-footer">
     <span class="vibecoded-text">proudly vibecoded.</span>
     <span>@ dreamflasher 2026</span>
