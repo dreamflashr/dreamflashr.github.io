@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* === ПАЛИТРА === */
+    /* === ПАЛИТРА И ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ === */
     :root {
       --bg-main: #09090b; 
       --bg-black: #000000; 
@@ -19,9 +19,12 @@
       --accent-neon: #00e5ff; 
       --text-main: #f4f4f5;
       --text-muted: #a1a1aa;
-      --border-color: rgba(255, 255, 255, 0.05);
+      
+      --border-layout: rgba(255, 255, 255, 0.35); 
+      --border-card: rgba(255, 255, 255, 0.05); 
 
-      --hero-pad-left: 8%; 
+      /* Единый отступ слева для идеального выравнивания шапки и контента */
+      --global-pad-x: clamp(20px, 12vw, 200px);
     }
 
     * {
@@ -36,186 +39,100 @@
       font-family: 'Libre Franklin', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
-      padding-bottom: 70px;
-    }
-
-    /* === СЕТКА МАКЕТА === */
-    .layout {
-      display: flex;
-      min-height: 100vh;
-      width: 100vw;
-    }
-
-    /* === ЛЕВАЯ ПАНЕЛЬ (ПОЛНОСТЬЮ ЧЕРНАЯ) === */
-    .sidebar {
-      width: 35%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      background-color: var(--bg-black);
-      border-right: 1px solid var(--border-color);
+      padding-bottom: 80px; 
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
-      padding-top: 0;
-      z-index: 10;
-      overflow: hidden; 
     }
 
-    .hero-container {
-      position: relative;
-      z-index: 10;
+    /* === ВЕРХНЯЯ ШАПКА (TOPBAR) === */
+    .topbar {
       width: 100%;
+      background-color: var(--bg-black);
+      border-bottom: 1px solid var(--border-layout);
+      padding: 6vh var(--global-pad-x) 5vh;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      padding-top: 4vh;
-    }
-
-    /* === БЛОК DREAM С ВИДЕО === */
-    .dream-box {
       position: relative;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding-top: 3vh;
-      padding-bottom: 2px;
-      overflow: hidden;
+      z-index: 10;
+      overflow: hidden; /* Важно, чтобы видео не вылезало за края шапки */
     }
 
-    .dream-video {
+    /* === ВИДЕО И ГРАДИЕНТ В ШАПКЕ === */
+    .topbar-bg-container {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      z-index: 1;
-      filter: blur(25px) brightness(0.7) contrast(1.2); 
-      transform: scale(1.15);
+      z-index: 0;
+      pointer-events: none;
     }
 
-    .dream-video-gradient {
+    .topbar-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: right center; /* Фокус видео на правой стороне */
+      filter: brightness(0.6) contrast(1.2); /* Слегка приглушаем для стиля */
+    }
+
+    .topbar-gradient {
       position: absolute;
-      bottom: -1px; 
+      top: 0;
       left: 0;
       width: 100%;
-      height: 60px; 
-      background: linear-gradient(to top, #000000 0%, rgba(0, 0, 0, 0.7) 40%, transparent 100%);
+      height: 100%;
+      /* Идеальный градиент: слева 100% черный для текста, справа плавно переходит в видео */
+      background: linear-gradient(90deg, #000000 0%, #000000 45%, rgba(0,0,0,0) 80%);
+      z-index: 1;
+    }
+
+    /* Поднимаем текст над видео и градиентом */
+    .dream-title, .flashr-title, .portfolio-badge {
+      position: relative;
       z-index: 2;
     }
 
     .dream-title {
-      position: relative;
-      z-index: 3;
       font-family: 'Syne', sans-serif; 
-      font-size: clamp(2rem, 4.2vw, 5rem); 
+      font-size: clamp(2.5rem, 6vw, 6.5rem); 
       font-weight: 800;
       line-height: 0.9;
       text-transform: uppercase;
-      padding-left: var(--hero-pad-left);
       margin-bottom: -5px;
-
-      /* ИСТИННЫЙ СТЕКЛОМОРФИЗМ */
-      color: transparent;
-      background: rgba(255, 255, 255, 0.15); 
-      backdrop-filter: blur(15px); 
-      -webkit-backdrop-filter: blur(15px);
-      -webkit-background-clip: text; 
-      background-clip: text;
-      filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.9)); 
+      color: rgba(255, 255, 255, 0.25); 
       letter-spacing: -2px;
     }
 
-    /* === БЛОК FLASHR === */
     .flashr-title {
-      position: relative;
-      z-index: 2;
       font-family: 'Syne', sans-serif; 
-      font-size: clamp(2rem, 4.2vw, 5rem); 
+      font-size: clamp(2.5rem, 6vw, 6.5rem); 
       font-weight: 800;
       line-height: 0.9;
       color: var(--text-main); 
       text-transform: uppercase;
       letter-spacing: -2px;
-      padding-left: var(--hero-pad-left);
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       margin-top: -5px;
     }
 
     .portfolio-badge {
-      position: relative;
-      z-index: 2;
       font-family: 'Space Mono', monospace;
       font-size: 0.85rem;
       font-weight: 700;
       color: var(--bg-black);
       background-color: var(--accent-neon);
       display: inline-block;
-      padding: 6px 14px;
+      padding: 6px 16px;
       text-transform: uppercase;
       letter-spacing: 2px;
-      margin-left: var(--hero-pad-left);
     }
 
-    /* === АНИМИРОВАННЫЕ КОЛЬЦА (ВЫРАЗИТЕЛЬНЫЕ) === */
-    .sidebar-rings {
-      position: absolute;
-      top: 65%;
-      left: 0;
-      transform: translateY(-50%);
-      z-index: 5;
-      pointer-events: none;
-    }
-
-    .ring {
-      position: absolute;
-      top: 50%;
-      left: 0; 
-      border-radius: 50%;
-    }
-
-    @keyframes ringPulse {
-      0% {
-        transform: translate(-50%, -50%) scale(0.95);
-        opacity: 0.7;
-      }
-      100% {
-        transform: translate(-50%, -50%) scale(1.05);
-        opacity: 1;
-      }
-    }
-
-    .ring-1 {
-      width: 250px;
-      height: 250px;
-      border: 4px solid var(--accent-neon);
-      box-shadow: 0 0 30px rgba(0, 229, 255, 0.6), inset 0 0 30px rgba(0, 229, 255, 0.6);
-      animation: ringPulse 3s infinite alternate ease-in-out;
-    }
-
-    .ring-2 {
-      width: 450px;
-      height: 450px;
-      border: 2px dashed rgba(0, 229, 255, 0.6); /* Технологичный пунктир */
-      box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
-      animation: ringPulse 5s infinite alternate ease-in-out 0.5s; 
-    }
-
-    .ring-3 {
-      width: 650px;
-      height: 650px;
-      border: 1px solid rgba(0, 229, 255, 0.3);
-      animation: ringPulse 7s infinite alternate ease-in-out 1s; 
-    }
-
-    /* === ПРАВАЯ РАБОЧАЯ ЗОНА === */
+    /* === ОСНОВНОЙ КОНТЕНТ === */
     .main-content {
-      margin-left: 35%; 
-      width: 65%;
-      padding: 10vh 8% 80px;
+      width: 100%;
+      padding: 6vh var(--global-pad-x) 80px;
       display: flex;
       flex-direction: column;
     }
@@ -226,7 +143,7 @@
       gap: 40px;
       margin-bottom: 60px;
       flex-wrap: wrap;
-      border-bottom: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-layout);
       padding-bottom: 20px;
     }
 
@@ -279,6 +196,17 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    .section-subtitle {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+    }
+
+    /* Обо мне */
     .about-text {
       font-size: 1.15rem;
       line-height: 1.8;
@@ -307,17 +235,19 @@
 
     .repo-card {
       background: var(--bg-card);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-card);
       border-radius: 8px;
       padding: 35px 30px;
       transition: all 0.3s ease;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
     }
 
     .repo-card:hover {
       background: rgba(0, 229, 255, 0.05); 
       border-color: var(--accent-neon);
-      transform: translateX(8px);
+      transform: translateY(-5px);
       box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     }
 
@@ -329,6 +259,8 @@
       margin-bottom: 10px;
       letter-spacing: -0.5px;
       transition: color 0.3s ease;
+      word-break: break-word;
+      overflow-wrap: break-word;
     }
 
     .repo-card:hover .repo-title {
@@ -339,6 +271,8 @@
       font-size: 0.95rem;
       color: var(--text-muted);
       line-height: 1.6;
+      word-break: break-word;
+      overflow-wrap: break-word;
     }
 
     /* Соцсети */
@@ -375,7 +309,7 @@
     .social-btn.outline {
       background: transparent;
       color: var(--text-main);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-card);
     }
 
     .social-btn.outline:hover {
@@ -384,7 +318,7 @@
       border-color: var(--accent-neon);
     }
 
-    /* === ВСТРОЕННЫЙ ФУТЕР-ПЛЕЕР НА ВСЮ ШИРИНУ === */
+    /* === ФУТЕР-ПЛЕЕР === */
     .corporate-footer {
       position: fixed;
       bottom: 0;
@@ -393,28 +327,41 @@
       height: 60px;
       background-color: var(--bg-black);
       display: flex;
-      justify-content: space-between; 
+      flex-direction: row;
+      justify-content: space-between;
       align-items: center;
-      padding: 0 3%;
+      padding: 0 4%;
       z-index: 100;
-      border-top: 1px solid var(--border-color);
+      border-top: 1px solid var(--border-layout);
     }
 
     .vibecoded-text {
       font-family: 'Space Mono', monospace;
-      color: rgba(255, 255, 255, 0.2);
-      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 0.7rem;
       text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
+      width: 250px;
+      text-align: left;
+    }
+
+    .footer-copyright {
+      font-family: 'Space Mono', monospace;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      width: 250px;
+      text-align: right;
     }
 
     .footer-player {
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       gap: 20px;
       flex: 1;
-      max-width: 600px;
-      margin: 0 40px;
+      max-width: 500px;
+      margin: 0 auto;
     }
 
     .player-btn {
@@ -424,12 +371,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       transition: all 0.2s ease;
+      flex-shrink: 0;
+      margin-bottom: -2px; 
     }
 
     .player-btn:hover {
@@ -449,29 +398,30 @@
 
     .footer-player.playing .play-icon {
       border-style: double;
-      border-width: 0px 0 0px 7px;
-      height: 10px;
+      border-width: 0px 0 0px 8px;
+      height: 12px;
       transform: translateX(0);
     }
 
     .player-meta {
       display: flex;
       flex-direction: column;
-      gap: 4px;
       flex: 1;
+      position: relative;
     }
 
     .player-title-bar {
       font-family: 'Syne', sans-serif;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 1.5px;
+      letter-spacing: 2px;
       color: var(--text-main);
       text-align: center;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      margin-bottom: 8px; 
     }
 
     .player-title-bar span {
@@ -482,7 +432,7 @@
     .player-progress-container {
       width: 100%;
       height: 4px;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.2); 
       border-radius: 2px;
       cursor: pointer;
       position: relative;
@@ -497,47 +447,14 @@
       transition: width 0.1s linear;
     }
 
-    .footer-copyright {
-      font-family: 'Space Mono', monospace;
-      color: rgba(255, 255, 255, 0.4);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      transition: color 0.3s ease;
-      cursor: default;
-    }
-
-    .footer-copyright:hover {
-      color: var(--accent-neon);
-    }
-
     /* === МОБИЛЬНАЯ АДАПТАЦИЯ === */
-    @media (max-width: 1024px) {
+    @media (max-width: 768px) {
       body {
-        padding-bottom: 110px; 
+        padding-bottom: 150px;
       }
-      .layout {
-        flex-direction: column;
-      }
-      .sidebar {
-        position: relative;
-        width: 100%;
-        height: auto;
-        padding: 0;
-        padding-bottom: 40px;
-        border-right: none;
-        border-bottom: 1px solid var(--border-color);
-      }
-      .sidebar-rings {
-        display: none; 
-      }
-      .hero-container {
-        padding-left: 0;
-      }
-      .main-content {
-        margin-left: 0;
-        width: 100%;
-        padding: 50px 6% 80px;
+      .topbar-gradient {
+        /* На мобилке закрашиваем бóльшую часть, чтобы текст лучше читался */
+        background: linear-gradient(90deg, #000000 0%, #000000 60%, rgba(0,0,0,0) 100%);
       }
       .top-nav {
         gap: 15px;
@@ -552,100 +469,89 @@
       .socials-grid {
         flex-direction: column;
       }
+      /* Футер на мобильных складывается в колонку */
       .corporate-footer {
         flex-direction: column;
-        justify-content: center;
-        gap: 10px;
-        height: 100px;
-        padding: 10px 5%;
+        height: auto;
+        padding: 20px 5%;
+        gap: 15px;
+      }
+      .vibecoded-text, .footer-copyright {
+        width: 100%;
+        text-align: center;
       }
       .footer-player {
         width: 100%;
-        margin: 0;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="layout">
-    <!-- Левая панель -->
-    <aside class="sidebar">
+  <!-- Верхняя шапка (Topbar) -->
+  <header class="topbar">
+    <!-- Фоновое видео с градиентом -->
+    <div class="topbar-bg-container">
+      <video class="topbar-video" autoplay loop muted playsinline>
+        <source src="bg-video.mp4" type="video/mp4">
+      </video>
+      <div class="topbar-gradient"></div>
+    </div>
 
-      <!-- Контейнер с заголовком -->
-      <div class="hero-container">
+    <!-- Текстовый блок шапки -->
+    <h1 class="dream-title">Dream</h1>
+    <h1 class="flashr-title">flashr.</h1>
+    <div class="portfolio-badge">Portfolio</div>
+  </header>
 
-        <!-- Блок DREAM -->
-        <div class="dream-box">
-          <video class="dream-video" autoplay loop muted playsinline>
-            <source src="bg-video.mp4" type="video/mp4">
-          </video>
-          <div class="dream-video-gradient"></div>
+  <!-- Правая панель с контентом -->
+  <main class="main-content">
+    <nav class="top-nav">
+      <button class="nav-btn active" data-target="about">about me</button>
+      <button class="nav-btn" data-target="repos">repositories</button>
+      <button class="nav-btn" data-target="socials">socials</button>
+    </nav>
 
-          <!-- Стеклянный шрифт Syne -->
-          <h1 class="dream-title">Dream</h1>
-        </div>
-
-        <!-- Текст FLASHR -->
-        <h1 class="flashr-title">flashr.</h1>
-        <div class="portfolio-badge">Portfolio</div>
+    <section id="about" class="tab-content active">
+      <h2 class="section-subtitle">Обо мне</h2>
+      <div class="about-text">
+        <p>Привет! Я разработчик и креатор. Обожаю экспериментировать с дизайном, кодом и создавать вещи, которые не только работают, но и круто выглядят.</p>
+        <p>Мой стек: HTML, CSS, JavaScript, немного магии и хороший вкус. Всегда открыт к новым идеям и нестандартным проектам. Основной фокус на чистоту кода и выверенную архитектуру.</p>
       </div>
+    </section>
 
-      <!-- Анимированные декоративные кольца -->
-      <div class="sidebar-rings">
-        <div class="ring ring-1"></div>
-        <div class="ring ring-2"></div>
-        <div class="ring ring-3"></div>
+    <section id="repos" class="tab-content">
+      <h2 class="section-subtitle">Проекты</h2>
+      <div class="repos-list">
+        <div class="repo-card">
+          <h3 class="repo-title">dreamflashr.github.io</h3>
+          <p class="repo-desc">Исходный код этого прекрасного портфолио. HTML, CSS, чистый кайф.</p>
+        </div>
+        <div class="repo-card">
+          <h3 class="repo-title">project-neon</h3>
+          <p class="repo-desc">Экспериментальный проект с WebGL и шейдерами. Очень много свечения и анимаций.</p>
+        </div>
+        <div class="repo-card">
+          <h3 class="repo-title">telegram-bot-core</h3>
+          <p class="repo-desc">Основа для создания быстрых ботов на Node.js с удобной архитектурой.</p>
+        </div>
       </div>
+    </section>
 
-    </aside>
+    <section id="socials" class="tab-content">
+      <h2 class="section-subtitle">Контакты</h2>
+      <div class="socials-grid">
+        <a href="https://github.com/dreamflashr" target="_blank" class="social-btn">GitHub</a>
+        <a href="https://t.me/твоя_телега" target="_blank" class="social-btn outline">Telegram</a>
+      </div>
+    </section>
+  </main>
 
-    <!-- Правая панель с контентом -->
-    <main class="main-content">
-      <nav class="top-nav">
-        <button class="nav-btn active" data-target="about">about me</button>
-        <button class="nav-btn" data-target="repos">repositories</button>
-        <button class="nav-btn" data-target="socials">socials</button>
-      </nav>
-
-      <section id="about" class="tab-content active">
-        <div class="about-text">
-          <p>Привет! Я разработчик и креатор. Обожаю экспериментировать с дизайном, кодом и создавать вещи, которые не только работают, но и круто выглядят.</p>
-          <p>Мой стек: HTML, CSS, JavaScript, немного магии и хороший вкус. Всегда открыт к новым идеям и нестандартным проектам. Основной фокус на чистоту кода и выверенную архитектуру.</p>
-        </div>
-      </section>
-
-      <section id="repos" class="tab-content">
-        <div class="repos-list">
-          <div class="repo-card">
-            <h3 class="repo-title">dreamflashr.github.io</h3>
-            <p class="repo-desc">Исходный код этого прекрасного портфолио. HTML, CSS, чистый кайф.</p>
-          </div>
-          <div class="repo-card">
-            <h3 class="repo-title">project-neon</h3>
-            <p class="repo-desc">Экспериментальный проект с WebGL и шейдерами. Очень много свечения и анимаций.</p>
-          </div>
-          <div class="repo-card">
-            <h3 class="repo-title">telegram-bot-core</h3>
-            <p class="repo-desc">Основа для создания быстрых ботов на Node.js с удобной архитектурой.</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="socials" class="tab-content">
-        <div class="socials-grid">
-          <a href="https://github.com/dreamflashr" target="_blank" class="social-btn">GitHub</a>
-          <a href="https://t.me/твоя_телега" target="_blank" class="social-btn outline">Telegram</a>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <!-- Корпоративный черный подвал -->
+  <!-- Пересобранный футер-плеер с распределенным текстом -->
   <footer class="corporate-footer">
-    <span class="vibecoded-text">proudly vibecoded.</span>
+    <span class="vibecoded-text">🩷 proudly vibecoded.</span>
 
-    <!-- Встроенный плеер (текст Pierre Bourne / Heart Say по центру) -->
+    <!-- Встроенный плеер -->
     <div class="footer-player" id="footerPlayer">
       <button class="player-btn" id="playPauseBtn">
         <div class="play-icon"></div>
@@ -660,7 +566,7 @@
       </div>
     </div>
 
-    <span class="footer-copyright">@ dreamflasher 2026</span>
+    <span class="footer-copyright">@ dreamflasher 2026 🩷</span>
   </footer>
 
   <!-- Аудиоэлемент -->
@@ -696,7 +602,7 @@
         audio.play().then(() => {
           playerContainer.classList.add('playing');
         }).catch(err => {
-          console.error("Ошибка воспроизведения (проверь путь к файлу или блокировку браузера):", err);
+          console.error("Ошибка воспроизведения:", err);
           alert("Не удалось запустить аудио. Проверь, загружен ли файл MP3 в папку с сайтом!");
         });
       } else {
@@ -705,13 +611,11 @@
       }
     });
 
-    // Когда трек заканчивается, возвращаем кнопку в исходное состояние
     audio.addEventListener('ended', () => {
       playerContainer.classList.remove('playing');
       progressBar.style.width = '0%';
     });
 
-    // Обновление прогресс-бара по ходу песни
     audio.addEventListener('timeupdate', () => {
       if (audio.duration) {
         const percent = (audio.currentTime / audio.duration) * 100;
@@ -719,7 +623,6 @@
       }
     });
 
-    // Клик по полоске прогресс-бара для перемотки
     progressContainer.addEventListener('click', (e) => {
       const width = progressContainer.clientWidth;
       const clickX = e.offsetX;
