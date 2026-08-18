@@ -5,350 +5,346 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DREAMFLASHER | PORTFOLIO</title>
 
+  <!-- Шрифты -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* === ПАЛИТРА: GLACIER ETHEREAL (Морской + Мятный) === */
+    /* === ПАЛИТРА И ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ === */
     :root {
-      /* Глубокий, почти черный хвойный/морской */
-      --bg-base: #070b0a;
-      --bg-surface: #101715;
-      --bg-surface-hover: #1a2522;
+      --bg-main: #0a0a0a; 
+      --bg-black: #000000; 
+      --bg-card: #121212;
+      --accent-neon: #ffffff; /* Чистый белый акцент */
+      --text-main: #ffffff;
+      --text-muted: #888888;
       
-      /* Акценты: Ледяной мятный и Изумрудный */
-      --accent-cyan: #00ffd1; /* Ледяной мятный неон */
-      --accent-cyan-glow: rgba(0, 255, 209, 0.3);
-      --accent-brown: #248277; /* Сложный морской зеленый */
-      
-      /* Текст */
-      --text-main: #edf5f3; /* Мятно-белый */
-      --text-muted: #809994; /* Приглушенный зеленый-серый */
-      
-      /* Линии */
-      --border-color: rgba(255, 255, 255, 0.06);
-      --border-cyan: rgba(0, 255, 209, 0.4);
-      
-      --font-display: 'Syne', sans-serif;
-      --font-body: 'Outfit', sans-serif;
+      --border-layout: rgba(255, 255, 255, 0.137); 
+      --border-card: rgba(255, 255, 255, 0.05); 
+      --global-pad-x: clamp(20px, 12vw, 200px);
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+
     body {
-      background-color: var(--bg-base); color: var(--text-main);
-      font-family: var(--font-body); overflow-x: hidden; line-height: 1.6;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: 'Libre Franklin', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding-bottom: 80px; 
+      display: flex;
+      flex-direction: column;
     }
 
-    /* Шум */
-    body::after {
-      content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-      opacity: 0.03; pointer-events: none; z-index: 9999;
+    /* === СТАРТОВЫЙ ОВЕРЛЕЙ === */
+    #intro-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background-color: var(--bg-black); z-index: 9999;
+      display: flex; justify-content: center; align-items: center; cursor: pointer;
+    }
+    #intro-text {
+      font-family: 'Space Mono', monospace; color: var(--text-main);
+      font-size: 1rem; text-transform: uppercase; letter-spacing: 2px;
+      animation: pulseText 2s infinite alternate;
+    }
+    @keyframes pulseText { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+
+    /* === TOPBAR === */
+    .topbar {
+      width: 100%;
+      background-color: var(--bg-black);
+      border-bottom: 1px solid var(--border-layout);
+      padding: 4vh var(--global-pad-x) 4vh;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: relative;
+      z-index: 10;
+      overflow: hidden; 
     }
 
-    /* Фоновые градиенты */
-    .glow-cyan {
-      position: absolute; top: 10%; right: 0; width: 600px; height: 600px;
-      background: radial-gradient(circle, var(--accent-cyan-glow) 0%, transparent 70%);
-      filter: blur(80px); z-index: -1; opacity: 0.4; pointer-events: none;
+    .topbar-bg-container {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+    }
+    .topbar-video {
+      width: 100%; height: 100%; object-fit: cover; object-position: right center; 
+      filter: brightness(0.6) contrast(1.2); 
+    }
+    .topbar-gradient {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(90deg, #000000 0%, #000000 45%, rgba(0,0,0,0) 80%);
+      z-index: 1;
+    }
+
+    .dream-title, .flashr-title, .portfolio-badge { position: relative; z-index: 2; }
+
+    .dream-title {
+      font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 5.5rem); 
+      font-weight: 800; line-height: 0.9; text-transform: uppercase;
+      margin-bottom: -5px; color: rgba(255, 255, 255, 0.25); letter-spacing: -2px;
+    }
+    .flashr-title {
+      font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 5.5rem); 
+      font-weight: 800; line-height: 0.9; color: var(--text-main); 
+      text-transform: uppercase; letter-spacing: -2px;
+      margin-bottom: 20px; margin-top: -5px;
+    }
+    .portfolio-badge {
+      font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700;
+      color: var(--bg-black); background-color: var(--accent-neon);
+      display: inline-block; padding: 6px 16px; text-transform: uppercase; letter-spacing: 2px;
+    }
+
+    /* === КОНТЕНТ === */
+    .main-content {
+      width: 100%;
+      padding: 6vh var(--global-pad-x) 80px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-nav {
+      display: flex; gap: 40px; margin-bottom: 40px;
+      border-bottom: 1px solid var(--border-layout); padding-bottom: 20px;
+    }
+    .nav-btn {
+      background: none; border: none; color: rgba(244, 244, 245, 0.3);
+      font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800;
+      letter-spacing: 2.5px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease;
+    }
+    .nav-btn:hover { color: var(--text-main); letter-spacing: 3.5px; }
+    .nav-btn.active { color: var(--accent-neon); }
+
+    .tab-content { 
+      display: none; 
+      width: 100%; 
+    }
+    .tab-content.active { 
+      display: flex; 
+      flex-direction: column; 
+      align-items: flex-end; 
+      text-align: right; 
+    }
+
+    .section-subtitle {
+      font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800;
+      color: var(--text-main); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: -1px;
+    }
+
+    /* === ЛЕГЕНДА РЕПОЗИТОРИЕВ === */
+    .repo-legend {
+      display: flex; 
+      flex-direction: column; 
+      gap: 12px; 
+      margin-bottom: 40px;
+      align-items: flex-end;
+    }
+    .legend-item {
+      font-family: 'Space Mono', monospace; font-size: 0.75rem;
+      color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;
+    }
+
+    .about-text { font-size: 1.15rem; line-height: 1.8; color: var(--text-muted); max-width: 650px; }
+    .about-text p { margin-bottom: 25px; }
+    .about-text p:first-child {
+      color: var(--text-main); font-size: 1.25rem; font-weight: 500;
+      border-right: 3px solid var(--accent-neon); padding-right: 20px;
+    }
+
+    /* === КАРТОЧКИ === */
+    .repos-list {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;
+      width: 100%;
+    }
+    .repo-card {
+      background: var(--bg-card); border: 1px solid var(--border-card);
+      border-radius: 8px; padding: 35px 30px; transition: all 0.3s ease;
+      cursor: pointer; display: flex; flex-direction: column;
+    }
+    .repo-card:hover {
+      background: rgba(0, 229, 255, 0.05); border-color: var(--accent-neon);
+      transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     }
     
-    .glow-brown {
-      position: absolute; top: 40%; left: -10vw; width: 800px; height: 800px;
-      background: radial-gradient(circle, rgba(36, 130, 119, 0.15) 0%, transparent 70%);
-      filter: blur(100px); z-index: -1; pointer-events: none;
+    .repo-title {
+      font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800;
+      color: var(--text-main); margin-bottom: 10px; transition: color 0.3s ease;
+      display: flex; align-items: center; gap: 10px; 
+      word-break: break-word; overflow-wrap: break-word;
+      justify-content: flex-end;
+      flex-direction: row-reverse;
     }
+    .repo-title .emoji {
+      flex-shrink: 0;
+      font-size: 1.2rem;
+      display: inline-flex;
+    }
+    .repo-card:hover .repo-title { color: var(--accent-neon); }
+    
+    .repo-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
 
-    /* === ХЕДЕР === */
-    header {
-      position: fixed; top: 0; left: 0; width: 100%; padding: 20px 5%;
-      display: flex; justify-content: space-between; align-items: center;
-      background: rgba(7, 11, 10, 0.6);
-      backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-      border-bottom: 1px solid var(--border-color);
-      z-index: 1000; transition: all 0.3s ease;
-    }
-
-    .header-left { display: flex; align-items: center; gap: 40px; }
-
-    .logo {
-      font-family: var(--font-display); font-size: 1.6rem; letter-spacing: -1px;
-      text-transform: uppercase; color: var(--text-main); text-decoration: none; font-weight: 800;
-    }
-    .logo .c-cyan { color: var(--accent-cyan); }
-
-    .nav-links { display: flex; gap: 30px; }
-    .nav-link {
-      color: var(--text-muted); text-decoration: none; font-family: var(--font-display);
-      font-weight: 700; font-size: 0.95rem; text-transform: uppercase;
-      letter-spacing: 1px; transition: color 0.3s ease; position: relative;
-    }
-    .nav-link:hover { color: var(--text-main); }
-    .nav-link::after {
-      content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 2px;
-      background: var(--accent-cyan); transform: scaleX(0); transform-origin: right; transition: transform 0.3s ease;
-    }
-    .nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
-
-    /* === СЕКЦИИ === */
-    section { padding: 120px 5% 80px; max-width: 1400px; margin: 0 auto; position: relative; }
-    .section-title {
-      font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem);
-      font-weight: 800; text-transform: uppercase; letter-spacing: -2px;
-      color: var(--text-main); margin-bottom: 50px; line-height: 1;
-    }
-    .section-title span.outline-accent { color: transparent; -webkit-text-stroke: 1.5px var(--accent-cyan); }
-
-    /* === HERO === */
-    .hero {
-      min-height: 100vh; display: flex; flex-direction: column;
-      justify-content: center; padding-top: 100px; position: relative;
-    }
-
-    .hero-subtitle {
-      font-family: var(--font-display); color: var(--accent-brown);
-      font-weight: 800; text-transform: uppercase; letter-spacing: 3px;
-      margin-bottom: 20px; font-size: 1.1rem; position: relative; z-index: 1;
-    }
-
-    .hero-title {
-      font-family: var(--font-display); font-size: clamp(3.5rem, 8vw, 7.5rem);
-      font-weight: 800; text-transform: uppercase; letter-spacing: -3px;
-      line-height: 0.95; margin-bottom: 30px; max-width: 1000px; position: relative; z-index: 1;
-    }
-    .hero-title .outline-only {
-      color: transparent !important; -webkit-text-stroke: 2px var(--accent-cyan); font-weight: 800;
-    }
-
-    .hero-desc {
-      font-size: 1.25rem; color: var(--text-muted); max-width: 600px;
-      margin-bottom: 40px; position: relative; z-index: 1;
-    }
-
-    .cta-btn {
+    /* === СОЦСЕТИ === */
+    .socials-grid { display: flex; gap: 20px; justify-content: flex-end; }
+    .social-btn {
       display: inline-flex; align-items: center; justify-content: center;
-      padding: 18px 40px; background: var(--accent-cyan); color: var(--bg-base);
-      font-family: var(--font-display); font-weight: 800; font-size: 1rem;
-      text-transform: uppercase; letter-spacing: 1px; text-decoration: none;
-      border-radius: 4px; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0, 255, 209, 0.15);
-      position: relative; z-index: 1;
+      padding: 16px 45px; background: var(--accent-neon); color: var(--bg-black);
+      text-decoration: none; font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 1rem; text-transform: uppercase; letter-spacing: 1.5px;
+      border-radius: 6px; transition: all 0.3s ease; border: 2px solid var(--accent-neon);
     }
-    .cta-btn:hover { background: #fff; box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2); transform: translateY(-3px); }
-
-    /* === ABOUT === */
-    .about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: start; }
-    .text-box {
-      background: var(--bg-surface); border: 1px solid var(--border-color);
-      padding: 40px; border-radius: 12px; border-left: 3px solid var(--accent-brown);
-    }
-    .text-box p { font-size: 1.15rem; margin-bottom: 20px; color: var(--text-muted); }
-    .text-box p:last-child { margin-bottom: 0; }
-    .text-box p strong { color: var(--text-main); font-weight: 500; }
-
-    .skills-wrapper { display: flex; flex-direction: column; gap: 20px; }
-    .skill-category-title {
-      font-family: var(--font-display); font-size: 1.2rem; color: var(--text-main);
-      text-transform: uppercase; letter-spacing: 1px; font-weight: 700;
-    }
-    
-    .skills-list { display: flex; flex-wrap: wrap; gap: 12px; }
-    .skill-tag {
-      padding: 10px 20px; background: rgba(255,255,255,0.02);
-      border: 1px solid var(--border-color); border-radius: 8px;
-      color: var(--text-main); font-size: 0.95rem; font-weight: 500; transition: all 0.3s ease;
-    }
-    .skill-tag:hover { border-color: var(--accent-cyan); background: rgba(0, 255, 209, 0.05); color: var(--accent-cyan); transform: translateY(-2px); }
-
-    /* === PROJECTS === */
-    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
-    .project-card {
-      background: var(--bg-surface); border: 1px solid var(--border-color);
-      border-radius: 12px; padding: 40px; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex; flex-direction: column; position: relative; overflow: hidden; text-decoration: none;
-    }
-    .project-card::before {
-      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
-      background: var(--accent-cyan); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
-    }
-    .project-card:hover { background: var(--bg-surface-hover); border-color: var(--border-cyan); transform: translateY(-5px); }
-    .project-card:hover::before { transform: scaleX(1); }
-
-    .project-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .project-type {
-      font-family: var(--font-display); font-size: 0.75rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 1px; color: var(--accent-brown);
-    }
-    .project-title {
-      font-family: var(--font-display); font-size: 2rem; font-weight: 800;
-      text-transform: uppercase; letter-spacing: -1px; color: var(--text-main);
-      margin-bottom: 15px; transition: color 0.3s ease;
-    }
-    .project-card:hover .project-title { color: var(--accent-cyan); }
-    .project-desc { color: var(--text-muted); font-size: 1.05rem; line-height: 1.6; flex-grow: 1; }
-    .logo-outline {
-  color: transparent; /* Убираем заливку текста */
-  -webkit-text-stroke: 1px var(--accent-cyan); /* Делаем мятную обводку в 1 пиксель */
-  margin-left: 8px; /* Чуть отодвигаем от основного слова */
-  font-weight: 800;
-}
+    .social-btn:hover { background: transparent; color: var(--accent-neon); transform: translateY(-3px); }
+    .social-btn.outline { background: transparent; color: var(--text-main); border: 1px solid var(--border-card); }
+    .social-btn.outline:hover { background: var(--accent-neon); color: var(--bg-black); border-color: var(--accent-neon); }
 
     /* === ФУТЕР === */
-    footer {
-      border-top: 1px solid var(--border-color); padding: 80px 5%;
-      background: var(--bg-surface); text-align: center; margin-top: 50px;
+    .corporate-footer {
+      position: fixed; bottom: 0; left: 0; width: 100vw; height: 60px;
+      background-color: var(--bg-black); display: flex; justify-content: space-between;
+      align-items: center; padding: 0 4%; z-index: 100; border-top: 1px solid var(--border-layout);
     }
-    .footer-title {
-      font-family: var(--font-display); font-size: clamp(2.5rem, 4vw, 3.5rem);
-      font-weight: 800; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 30px;
+    .vibecoded-text, .footer-copyright {
+      font-family: 'Space Mono', monospace; color: rgba(255, 255, 255, 0.3);
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px;
     }
-    .social-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 50px; flex-wrap: wrap; }
-    .social-btn {
-      padding: 15px 35px; background: transparent; border: 1px solid var(--border-color);
-      border-radius: 8px; color: var(--text-main); font-family: var(--font-display);
-      font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-      text-decoration: none; transition: all 0.3s ease;
-    }
-    .social-btn:hover { border-color: var(--accent-cyan); background: rgba(0, 255, 209, 0.05); color: var(--accent-cyan); transform: translateY(-3px); }
-    .copyright { color: var(--text-muted); font-size: 0.9rem; }
 
-    @media (max-width: 992px) {
-      .about-grid { grid-template-columns: 1fr; gap: 40px; }
-      .hero-title { font-size: 4rem; }
+    /* Внутренние подзаголовки в тексте */
+    .inner-subtitle {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin: 40px 0 15px 0;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
     }
+
+    /* Мобилка */
     @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .hero-title { font-size: 3rem; }
-      section { padding: 80px 5% 40px; }
-      .header-left { gap: 15px; }
+      body { padding-bottom: 100px; }
+      .topbar-gradient { background: linear-gradient(90deg, #000000 0%, #000000 60%, rgba(0,0,0,0) 100%); }
+      .top-nav { gap: 15px; }
+      .nav-btn { font-size: 0.95rem; letter-spacing: 1.5px; }
+      .repos-list { grid-template-columns: 1fr; }
+      .socials-grid { flex-direction: column; }
+      .corporate-footer { flex-direction: column; height: auto; padding: 20px 5%; gap: 10px; }
+      .vibecoded-text, .footer-copyright { text-align: center; }
     }
   </style>
 </head>
 <body>
 
-  <div class="glow-cyan"></div>
-  <div class="glow-brown"></div>
+  <!-- Стартовый оверлей -->
+  <div id="intro-overlay">
+    <div id="intro-text">Кликните, чтобы продолжить ❤️</div>
+  </div>
 
-  <!-- ХЕДЕР -->
-  <header>
-    <div class="header-left">
-  <a href="#" class="logo">
-    DREAM<span class="c-cyan">FLASHER</span> <span class="logo-outline">*</span>
-  </a>
-</div>
-
-    <nav class="nav-links">
-      <a href="#about" class="nav-link">ABOUT</a>
-      <a href="#projects" class="nav-link">WORKS</a>
-      <a href="#contacts" class="nav-link">CONTACTS</a>
-    </nav>
+  <header class="topbar">
+    <div class="topbar-bg-container">
+      <video class="topbar-video" autoplay loop muted playsinline>
+        <source src="bg-video.mp4" type="video/mp4">
+      </video>
+      <div class="topbar-gradient"></div>
+    </div>
+    <h1 class="dream-title">*Dream</h1>
+    <h1 class="flashr-title">flashr.</h1>
+    <div class="portfolio-badge">*Portfolio</div>
   </header>
 
-  <!-- HERO СЕКЦИЯ -->
-  <section class="hero" id="home">
-    <div class="hero-subtitle">
-      SYSTEMS & AESTHETICS
-    </div>
-    
-    <h1 class="hero-title">
-      ИНЖЕНЕРИЯ<br>
-      <span class="outline-only">& ЭСТЕТИКА</span>
-    </h1>
-    
-    <p class="hero-desc">Моя страсть — бинарный анализ, реверс-инжиниринг и поиск уязвимостей. Строгий перфекционизм как в низкоуровневом коде, так и в UI/UX.</p>
-    <div>
-      <a href="#projects" class="cta-btn">EXPLORE WORK</a>
-    </div>
-  </section>
+  <main class="main-content">
+    <nav class="top-nav">
+      <button class="nav-btn active" data-target="about">about me</button>
+      <button class="nav-btn" data-target="repos">repositories</button>
+      <button class="nav-btn" data-target="socials">socials</button>
+    </nav>
 
-  <!-- ABOUT СЕКЦИЯ -->
-  <section id="about">
-    <h2 class="section-title">ABOUT <span class="outline-accent">ME</span></h2>
-    <div class="about-grid">
-      <div class="text-box">
-        <p>Я верю, что программное обеспечение должно быть идеальным на всех уровнях. Для меня фундаментально важно, чтобы софт не только безупречно и оптимизированно работал "под капотом", но и обладал современным, интуитивно понятным интерфейсом.</p>
-        <p>Я ценю исследовательский подход и нестандартные задачи. Самое интересное в разработке и реверс-инжиниринге начинается там, где <strong>заканчиваются готовые мануалы</strong>.</p>
+  <section id="about" class="tab-content active">
+      <h2 class="section-subtitle">IN SHORT</h2>
+      <div class="about-text">
+        <p>Привет. Моя страсть — бинарный анализ, реверс-инжиниринг и поиск уязвимостей. При этом я строгий визуальный перфекционист: для меня важно, чтобы софт не только безупречно работал на низком уровне, но и стильно выглядел. Обожаю эксперименты и не ищу легких путей, ведь самое интересное начинается там, где заканчиваются готовые мануалы.</p>
+        
+        <h3 class="inner-subtitle">STACK & INSTRUMENTS</h3>
+        <p>C / C++ / Python / Lua<br>
+        <span style="color: var(--text-muted); font-size: 0.95rem;">x86/x64 ASM, Ghidra, IDA Pro, x64dbg, Cheat Engine, UI/UX Design</span></p>
+
+        <h3 class="inner-subtitle">💙 FUN FACTS</h3>
+        <p>✦ <strong>English B2:</strong> читаю любую техническую документацию со скоростью света и кайфую от общения в зарубежных комьюнити.</p>
+        <p>✦ <strong>Code & Aesthetics:</strong> абсолютно уверен, что красивый интерфейс важен так же, как и оптимизированный низкоуровневый код.</p>
       </div>
-      <div class="skills-wrapper">
-        <h3 class="skill-category-title">CORE STACK</h3>
-        <div class="skills-list">
-          <span class="skill-tag">C / C++</span>
-          <span class="skill-tag">Python</span>
-          <span class="skill-tag">Lua</span>
-          <span class="skill-tag">x86/x64 ASM</span>
+    </section>
+
+    <section id="repos" class="tab-content">
+      <h2 class="section-subtitle">PROJECTS</h2>
+      <!-- Легенда -->
+      <div class="repo-legend">
+        <span class="legend-item">💜 — ЗАВАЙБКОДИЛ, НО БЫЛО ИНТЕРЕСНО!</span>
+        <span class="legend-item">🐾 — РУЧКАМИ</span>
+      </div>
+      
+      <div class="repos-list">
+        <div class="repo-card">
+          <h3 class="repo-title">
+            <span class="emoji">🐾</span>
+            <span>dreamflashr.github.io</span>
+          </h3>
+          <p class="repo-desc">Это портфолио, написанное с нуля. HTML, CSS, чистый кайф.</p>
         </div>
-        <h3 class="skill-category-title">INSTRUMENTS</h3>
-        <div class="skills-list">
-          <span class="skill-tag">Ghidra</span>
-          <span class="skill-tag">IDA Pro</span>
-          <span class="skill-tag">x64dbg</span>
+        <div class="repo-card">
+          <h3 class="repo-title">
+            <span class="emoji">💜</span>
+            <span>project-neon</span>
+          </h3>
+          <p class="repo-desc">Экспериментальный проект с WebGL и шейдерами. Очень много свечения и анимаций.</p>
         </div>
-        <h3 class="skill-category-title">VISUALS</h3>
-        <div class="skills-list">
-          <span class="skill-tag">UI/UX Design</span>
-          <span class="skill-tag">Frontend / HTML / CSS</span>
+        <div class="repo-card">
+          <h3 class="repo-title">
+            <span class="emoji">🐾</span>
+            <span>telegram-bot-core</span>
+          </h3>
+          <p class="repo-desc">Основа для создания быстрых ботов на Node.js с удобной архитектурой.</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- PROJECTS СЕКЦИЯ -->
-  <section id="projects">
-    <h2 class="section-title">SELECTED <span class="outline-accent">WORKS</span></h2>
-    <div class="projects-grid">
-      <a href="#" class="project-card">
-        <div class="project-meta">
-          <span class="project-type">Frontend</span>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted)"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-        </div>
-        <h3 class="project-title">Portfolio UI</h3>
-        <p class="project-desc">Персональное портфолио, спроектированное с упором на современные UI-тренды (Neo-futurism). Написано с нуля без использования тяжелых фреймворков.</p>
-      </a>
-      <a href="#" class="project-card">
-        <div class="project-meta">
-          <span class="project-type">WebGL</span>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted)"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-        </div>
-        <h3 class="project-title">Project Neon</h3>
-        <p class="project-desc">Экспериментальная среда с использованием WebGL и шейдеров. Исследование производительности рендеринга и работы с графическим пайплайном.</p>
-      </a>
-      <a href="#" class="project-card">
-        <div class="project-meta">
-          <span class="project-type">Backend Core</span>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted)"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-        </div>
-        <h3 class="project-title">TG-Bot-Core</h3>
-        <p class="project-desc">Оптимизированное ядро для создания высоконагруженных ботов на Node.js. Архитектура построена с учетом масштабируемости и чистоты кода.</p>
-      </a>
-    </div>
-  </section>
+    <section id="socials" class="tab-content">
+      <h2 class="section-subtitle">CONTACTS</h2>
+      <div class="socials-grid">
+        <a href="https://github.com/dreamflashr" target="_blank" class="social-btn">GitHub</a>
+        <a href="https://t.me/handsm" target="_blank" class="social-btn outline">Telegram</a>
+      </div>
+    </section>
+  </main>
 
-  <!-- ФУТЕР / КОНТАКТЫ -->
-  <footer id="contacts">
-    <h2 class="footer-title">GET IN <span class="outline-accent">TOUCH</span></h2>
-    <p class="hero-desc" style="margin: 0 auto 40px; font-size: 1.1rem;">Открыт к предложениям, сложным задачам и интересным проектам.</p>
-    <div class="social-links">
-      <a href="https://github.com/dreamflashr" target="_blank" class="social-btn">GitHub</a>
-      <a href="https://t.me/handsm" target="_blank" class="social-btn">Telegram</a>
-    </div>
-    <div class="copyright">
-      &copy; 2026 Dreamflasher. Crafted with code and aesthetics.
-    </div>
+  <footer class="corporate-footer">
+    <span class="vibecoded-text">🩷 proudly vibecoded.</span>
+    <span class="footer-copyright">@ dreamflasher 2026</span>
   </footer>
 
+  <audio id="trackAudio" loop preload="auto">
+    <source src="drop.mp3" type="audio/mp3">
+  </audio>
+
   <script>
-    // Анимация хедера
-    window.addEventListener('scroll', () => {
-      const header = document.querySelector('header');
-      if (window.scrollY > 50) {
-        header.style.background = 'rgba(7, 11, 10, 0.9)';
-        header.style.boxShadow = '0 4px 30px rgba(0,0,0,0.5)';
-      } else {
-        header.style.background = 'rgba(7, 11, 10, 0.6)';
-        header.style.boxShadow = 'none';
-      }
+    const introOverlay = document.getElementById('intro-overlay');
+    const introText = document.getElementById('intro-text');
+    const audio = document.getElementById('trackAudio');
+    
+    introOverlay.addEventListener('click', () => {
+      audio.play().catch(err => console.error("Ошибка автоплея:", err));
+      introText.style.display = 'none';
+      setTimeout(() => {
+        introOverlay.style.display = 'none';
+      }, 580);
     });
+
+    const buttons = document.querySelectorAll('.nav-btn');
+    const contents = document.querySelectorAll('.tab-content');
+    buttons.forEach(btn => btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      contents.forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.target).classList.add('active');
+    }));
   </script>
 </body>
 </html>
