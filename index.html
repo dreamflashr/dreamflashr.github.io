@@ -1,350 +1,647 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
+
 <html lang="ru">
+
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>DREAMFLASHER | PORTFOLIO</title>
 
+
   <!-- Шрифты -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
+
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
+
   <style>
+
     /* === ПАЛИТРА И ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ === */
+
     :root {
-      --bg-main: #0a0a0a; 
-      --bg-black: #000000; 
+
+      --bg-main: #0a0a0a;
+
+      --bg-black: #000000;
+
       --bg-card: #121212;
+
       --accent-neon: #ffffff; /* Чистый белый акцент */
+
       --text-main: #ffffff;
+
       --text-muted: #888888;
-      
-      --border-layout: rgba(255, 255, 255, 0.137); 
-      --border-card: rgba(255, 255, 255, 0.05); 
+
+     
+
+      --border-layout: rgba(255, 255, 255, 0.137);
+
+      --border-card: rgba(255, 255, 255, 0.05);
+
       --global-pad-x: clamp(20px, 12vw, 200px);
+
     }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+
     body {
+
       background-color: var(--bg-main);
+
       color: var(--text-main);
+
       font-family: 'Libre Franklin', sans-serif;
+
       min-height: 100vh;
+
       overflow-x: hidden;
-      padding-bottom: 80px; 
+
+      padding-bottom: 80px;
+
       display: flex;
+
       flex-direction: column;
+
     }
+
 
     /* === СТАРТОВЫЙ ОВЕРЛЕЙ === */
+
     #intro-overlay {
+
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+
       background-color: var(--bg-black); z-index: 9999;
+
       display: flex; justify-content: center; align-items: center; cursor: pointer;
+
     }
+
     #intro-text {
+
       font-family: 'Space Mono', monospace; color: var(--text-main);
+
       font-size: 1rem; text-transform: uppercase; letter-spacing: 2px;
+
       animation: pulseText 2s infinite alternate;
+
     }
+
     @keyframes pulseText { 0% { opacity: 0.5; } 100% { opacity: 1; } }
 
+
     /* === TOPBAR === */
+
     .topbar {
+
       width: 100%;
+
       background-color: var(--bg-black);
+
       border-bottom: 1px solid var(--border-layout);
+
       padding: 4vh var(--global-pad-x) 4vh;
+
       display: flex;
+
       flex-direction: column;
+
       align-items: flex-start;
+
       position: relative;
+
       z-index: 10;
-      overflow: hidden; 
+
+      overflow: hidden;
+
     }
 
+
     .topbar-bg-container {
+
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+
     }
+
     .topbar-video {
-      width: 100%; height: 100%; object-fit: cover; object-position: right center; 
-      filter: brightness(0.6) contrast(1.2); 
+
+      width: 100%; height: 100%; object-fit: cover; object-position: right center;
+
+      filter: brightness(0.6) contrast(1.2);
+
     }
+
     .topbar-gradient {
+
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+
       background: linear-gradient(90deg, #000000 0%, #000000 45%, rgba(0,0,0,0) 80%);
+
       z-index: 1;
+
     }
+
 
     .dream-title, .flashr-title, .portfolio-badge { position: relative; z-index: 2; }
 
+
     .dream-title {
-      font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 5.5rem); 
+
+      font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 5.5rem);
+
       font-weight: 800; line-height: 0.9; text-transform: uppercase;
+
       margin-bottom: -5px; color: rgba(255, 255, 255, 0.25); letter-spacing: -2px;
+
     }
+
     .flashr-title {
-      font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 5.5rem); 
-      font-weight: 800; line-height: 0.9; color: var(--text-main); 
+
+      font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 5.5rem);
+
+      font-weight: 800; line-height: 0.9; color: var(--text-main);
+
       text-transform: uppercase; letter-spacing: -2px;
+
       margin-bottom: 20px; margin-top: -5px;
+
     }
+
     .portfolio-badge {
+
       font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700;
+
       color: var(--bg-black); background-color: var(--accent-neon);
+
       display: inline-block; padding: 6px 16px; text-transform: uppercase; letter-spacing: 2px;
+
     }
+
 
     /* === КОНТЕНТ === */
+
     .main-content {
+
       width: 100%;
+
       padding: 6vh var(--global-pad-x) 80px;
+
       display: flex;
+
       flex-direction: column;
+
     }
+
 
     .top-nav {
+
       display: flex; gap: 40px; margin-bottom: 40px;
+
       border-bottom: 1px solid var(--border-layout); padding-bottom: 20px;
+
     }
+
     .nav-btn {
+
       background: none; border: none; color: rgba(244, 244, 245, 0.3);
+
       font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800;
+
       letter-spacing: 2.5px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease;
+
     }
+
     .nav-btn:hover { color: var(--text-main); letter-spacing: 3.5px; }
+
     .nav-btn.active { color: var(--accent-neon); }
 
-    .tab-content { 
-      display: none; 
-      width: 100%; 
-    }
-    .tab-content.active { 
-      display: flex; 
-      flex-direction: column; 
-      align-items: flex-end; 
-      text-align: right; 
-    }
+
+    .tab-content { display: none; }
+
+    .tab-content.active { display: block; }
+
 
     .section-subtitle {
+
       font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800;
+
       color: var(--text-main); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: -1px;
+
     }
+
 
     /* === ЛЕГЕНДА РЕПОЗИТОРИЕВ === */
+
     .repo-legend {
-      display: flex; 
-      flex-direction: column; 
-      gap: 12px; 
+
+      display: flex;
+
+      flex-direction: column; /* Элементы легенды теперь с новой строки */
+
+      gap: 12px;
+
       margin-bottom: 40px;
-      align-items: flex-end;
+
     }
+
     .legend-item {
+
       font-family: 'Space Mono', monospace; font-size: 0.75rem;
+
       color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;
+
     }
+
 
     .about-text { font-size: 1.15rem; line-height: 1.8; color: var(--text-muted); max-width: 650px; }
+
     .about-text p { margin-bottom: 25px; }
+
     .about-text p:first-child {
+
       color: var(--text-main); font-size: 1.25rem; font-weight: 500;
-      border-right: 3px solid var(--accent-neon); padding-right: 20px;
+
+      border-left: 3px solid var(--accent-neon); padding-left: 20px;
+
     }
+
 
     /* === КАРТОЧКИ === */
+
     .repos-list {
+
       display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;
-      width: 100%;
+
     }
+
     .repo-card {
+
       background: var(--bg-card); border: 1px solid var(--border-card);
+
       border-radius: 8px; padding: 35px 30px; transition: all 0.3s ease;
+
       cursor: pointer; display: flex; flex-direction: column;
+
     }
+
     .repo-card:hover {
+
       background: rgba(0, 229, 255, 0.05); border-color: var(--accent-neon);
+
       transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+
     }
-    
+
+   
+
     .repo-title {
+
       font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800;
+
       color: var(--text-main); margin-bottom: 10px; transition: color 0.3s ease;
-      display: flex; align-items: center; gap: 10px; 
+
+      display: flex; align-items: center; gap: 10px; /* Flexbox для идеального выравнивания эмодзи */
+
       word-break: break-word; overflow-wrap: break-word;
-      justify-content: flex-end;
-      flex-direction: row-reverse;
+
     }
+
+    /* Фиксируем эмодзи, чтобы оно не сжималось и стояло по центру */
+
     .repo-title .emoji {
+
       flex-shrink: 0;
+
       font-size: 1.2rem;
+
       display: inline-flex;
+
     }
+
     .repo-card:hover .repo-title { color: var(--accent-neon); }
-    
+
+   
+
     .repo-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
 
+
     /* === СОЦСЕТИ === */
-    .socials-grid { display: flex; gap: 20px; justify-content: flex-end; }
+
+    .socials-grid { display: flex; gap: 20px; }
+
     .social-btn {
+
       display: inline-flex; align-items: center; justify-content: center;
+
       padding: 16px 45px; background: var(--accent-neon); color: var(--bg-black);
+
       text-decoration: none; font-family: 'Syne', sans-serif; font-weight: 800;
+
       font-size: 1rem; text-transform: uppercase; letter-spacing: 1.5px;
+
       border-radius: 6px; transition: all 0.3s ease; border: 2px solid var(--accent-neon);
+
     }
+
     .social-btn:hover { background: transparent; color: var(--accent-neon); transform: translateY(-3px); }
+
     .social-btn.outline { background: transparent; color: var(--text-main); border: 1px solid var(--border-card); }
+
     .social-btn.outline:hover { background: var(--accent-neon); color: var(--bg-black); border-color: var(--accent-neon); }
 
+
     /* === ФУТЕР === */
+
     .corporate-footer {
+
       position: fixed; bottom: 0; left: 0; width: 100vw; height: 60px;
+
       background-color: var(--bg-black); display: flex; justify-content: space-between;
+
       align-items: center; padding: 0 4%; z-index: 100; border-top: 1px solid var(--border-layout);
+
     }
+
     .vibecoded-text, .footer-copyright {
+
       font-family: 'Space Mono', monospace; color: rgba(255, 255, 255, 0.3);
+
       font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px;
+
     }
+
 
     /* Внутренние подзаголовки в тексте */
+
     .inner-subtitle {
+
       font-family: 'Syne', sans-serif;
+
       font-size: 1.5rem;
+
       font-weight: 800;
+
       color: var(--text-main);
+
       margin: 40px 0 15px 0;
+
       text-transform: uppercase;
+
       letter-spacing: -0.5px;
+
     }
+
 
     /* Мобилка */
+
     @media (max-width: 768px) {
+
       body { padding-bottom: 100px; }
+
       .topbar-gradient { background: linear-gradient(90deg, #000000 0%, #000000 60%, rgba(0,0,0,0) 100%); }
+
       .top-nav { gap: 15px; }
+
       .nav-btn { font-size: 0.95rem; letter-spacing: 1.5px; }
+
       .repos-list { grid-template-columns: 1fr; }
+
       .socials-grid { flex-direction: column; }
+
       .corporate-footer { flex-direction: column; height: auto; padding: 20px 5%; gap: 10px; }
+
       .vibecoded-text, .footer-copyright { text-align: center; }
+
     }
+
   </style>
+
 </head>
+
 <body>
 
+
   <!-- Стартовый оверлей -->
+
   <div id="intro-overlay">
+
     <div id="intro-text">Кликните, чтобы продолжить ❤️</div>
+
   </div>
 
+
   <header class="topbar">
+
     <div class="topbar-bg-container">
+
       <video class="topbar-video" autoplay loop muted playsinline>
+
         <source src="bg-video.mp4" type="video/mp4">
+
       </video>
+
       <div class="topbar-gradient"></div>
+
     </div>
+
     <h1 class="dream-title">*Dream</h1>
+
     <h1 class="flashr-title">flashr.</h1>
+
     <div class="portfolio-badge">*Portfolio</div>
+
   </header>
 
+
   <main class="main-content">
+
     <nav class="top-nav">
+
       <button class="nav-btn active" data-target="about">about me</button>
+
       <button class="nav-btn" data-target="repos">repositories</button>
+
       <button class="nav-btn" data-target="socials">socials</button>
+
     </nav>
 
+
   <section id="about" class="tab-content active">
+
       <h2 class="section-subtitle">IN SHORT</h2>
+
       <div class="about-text">
+
         <p>Привет. Моя страсть — бинарный анализ, реверс-инжиниринг и поиск уязвимостей. При этом я строгий визуальный перфекционист: для меня важно, чтобы софт не только безупречно работал на низком уровне, но и стильно выглядел. Обожаю эксперименты и не ищу легких путей, ведь самое интересное начинается там, где заканчиваются готовые мануалы.</p>
-        
+
+       
+
         <h3 class="inner-subtitle">STACK & INSTRUMENTS</h3>
+
         <p>C / C++ / Python / Lua<br>
+
         <span style="color: var(--text-muted); font-size: 0.95rem;">x86/x64 ASM, Ghidra, IDA Pro, x64dbg, Cheat Engine, UI/UX Design</span></p>
 
+
         <h3 class="inner-subtitle">💙 FUN FACTS</h3>
+
         <p>✦ <strong>English B2:</strong> читаю любую техническую документацию со скоростью света и кайфую от общения в зарубежных комьюнити.</p>
+
         <p>✦ <strong>Code & Aesthetics:</strong> абсолютно уверен, что красивый интерфейс важен так же, как и оптимизированный низкоуровневый код.</p>
+
       </div>
+
     </section>
+
 
     <section id="repos" class="tab-content">
+
       <h2 class="section-subtitle">PROJECTS</h2>
+
       <!-- Легенда -->
+
       <div class="repo-legend">
+
         <span class="legend-item">💜 — ЗАВАЙБКОДИЛ, НО БЫЛО ИНТЕРЕСНО!</span>
+
         <span class="legend-item">🐾 — РУЧКАМИ</span>
+
       </div>
-      
+
+     
+
       <div class="repos-list">
+
         <div class="repo-card">
+
           <h3 class="repo-title">
+
             <span class="emoji">🐾</span>
+
             <span>dreamflashr.github.io</span>
+
           </h3>
+
           <p class="repo-desc">Это портфолио, написанное с нуля. HTML, CSS, чистый кайф.</p>
+
         </div>
+
         <div class="repo-card">
+
           <h3 class="repo-title">
+
             <span class="emoji">💜</span>
+
             <span>project-neon</span>
+
           </h3>
+
           <p class="repo-desc">Экспериментальный проект с WebGL и шейдерами. Очень много свечения и анимаций.</p>
+
         </div>
+
         <div class="repo-card">
+
           <h3 class="repo-title">
+
             <span class="emoji">🐾</span>
+
             <span>telegram-bot-core</span>
+
           </h3>
+
           <p class="repo-desc">Основа для создания быстрых ботов на Node.js с удобной архитектурой.</p>
+
         </div>
+
       </div>
+
     </section>
+
 
     <section id="socials" class="tab-content">
+
       <h2 class="section-subtitle">CONTACTS</h2>
+
       <div class="socials-grid">
+
         <a href="https://github.com/dreamflashr" target="_blank" class="social-btn">GitHub</a>
+
         <a href="https://t.me/handsm" target="_blank" class="social-btn outline">Telegram</a>
+
       </div>
+
     </section>
+
   </main>
 
+
   <footer class="corporate-footer">
+
     <span class="vibecoded-text">🩷 proudly vibecoded.</span>
+
     <span class="footer-copyright">@ dreamflasher 2026</span>
+
   </footer>
 
+
   <audio id="trackAudio" loop preload="auto">
+
     <source src="drop.mp3" type="audio/mp3">
+
   </audio>
 
+
   <script>
+
     const introOverlay = document.getElementById('intro-overlay');
+
     const introText = document.getElementById('intro-text');
+
     const audio = document.getElementById('trackAudio');
-    
+
+   
+
     introOverlay.addEventListener('click', () => {
+
       audio.play().catch(err => console.error("Ошибка автоплея:", err));
+
       introText.style.display = 'none';
+
       setTimeout(() => {
+
         introOverlay.style.display = 'none';
+
       }, 580);
+
     });
 
+
     const buttons = document.querySelectorAll('.nav-btn');
+
     const contents = document.querySelectorAll('.tab-content');
+
     buttons.forEach(btn => btn.addEventListener('click', () => {
+
       buttons.forEach(b => b.classList.remove('active'));
+
       contents.forEach(c => c.classList.remove('active'));
+
       btn.classList.add('active');
+
       document.getElementById(btn.dataset.target).classList.add('active');
+
     }));
+
   </script>
+
 </body>
-</html>
+
+</html> 
