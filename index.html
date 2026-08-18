@@ -20,7 +20,7 @@
       --text-main: #f4f4f5;
       --text-muted: #a1a1aa;
       --border-color: rgba(255, 255, 255, 0.05);
-      
+
       --hero-pad-left: 8%; 
     }
 
@@ -36,7 +36,7 @@
       font-family: 'Libre Franklin', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
-      padding-bottom: 70px; /* Увеличили отступ под полноценный футер-плеер */
+      padding-bottom: 70px;
     }
 
     /* === СЕТКА МАКЕТА === */
@@ -70,6 +70,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
+      padding-top: 4vh;
     }
 
     /* === БЛОК DREAM С ВИДЕО === */
@@ -79,8 +80,8 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding-top: 10vh;
-      padding-bottom: 5px;
+      padding-top: 3vh;
+      padding-bottom: 2px;
       overflow: hidden;
     }
 
@@ -101,7 +102,7 @@
       bottom: -1px; 
       left: 0;
       width: 100%;
-      height: 120px; 
+      height: 60px; 
       background: linear-gradient(to top, #000000 0%, rgba(0, 0, 0, 0.7) 40%, transparent 100%);
       z-index: 2;
     }
@@ -116,7 +117,8 @@
       text-transform: uppercase;
       padding-left: var(--hero-pad-left);
       margin-bottom: -5px;
-      
+
+      /* ИСТИННЫЙ СТЕКЛОМОРФИЗМ */
       color: transparent;
       background: rgba(255, 255, 255, 0.15); 
       backdrop-filter: blur(15px); 
@@ -139,7 +141,7 @@
       text-transform: uppercase;
       letter-spacing: -2px;
       padding-left: var(--hero-pad-left);
-      margin-bottom: 25px;
+      margin-bottom: 15px;
       margin-top: -5px;
     }
 
@@ -152,16 +154,16 @@
       color: var(--bg-black);
       background-color: var(--accent-neon);
       display: inline-block;
-      padding: 8px 16px;
+      padding: 6px 14px;
       text-transform: uppercase;
       letter-spacing: 2px;
       margin-left: var(--hero-pad-left);
     }
 
-    /* === АНИМИРОВАННЫЕ КОЛЬЦА === */
+    /* === АНИМИРОВАННЫЕ КОЛЬЦА (ВЫРАЗИТЕЛЬНЫЕ) === */
     .sidebar-rings {
       position: absolute;
-      top: 70%;
+      top: 65%;
       left: 0;
       transform: translateY(-50%);
       z-index: 5;
@@ -173,13 +175,12 @@
       top: 50%;
       left: 0; 
       border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.15);
     }
 
     @keyframes ringPulse {
       0% {
         transform: translate(-50%, -50%) scale(0.95);
-        opacity: 0.6;
+        opacity: 0.7;
       }
       100% {
         transform: translate(-50%, -50%) scale(1.05);
@@ -190,23 +191,24 @@
     .ring-1 {
       width: 250px;
       height: 250px;
-      border: 3px solid rgba(0, 229, 255, 0.5);
-      box-shadow: 0 0 25px rgba(0, 229, 255, 0.3), inset 0 0 25px rgba(0, 229, 255, 0.3);
-      animation: ringPulse 4s infinite alternate ease-in-out;
+      border: 4px solid var(--accent-neon);
+      box-shadow: 0 0 30px rgba(0, 229, 255, 0.6), inset 0 0 30px rgba(0, 229, 255, 0.6);
+      animation: ringPulse 3s infinite alternate ease-in-out;
     }
 
     .ring-2 {
       width: 450px;
       height: 450px;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      animation: ringPulse 6s infinite alternate ease-in-out 1s; 
+      border: 2px dashed rgba(0, 229, 255, 0.6); /* Технологичный пунктир */
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+      animation: ringPulse 5s infinite alternate ease-in-out 0.5s; 
     }
 
     .ring-3 {
       width: 650px;
       height: 650px;
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      animation: ringPulse 8s infinite alternate ease-in-out 2s; 
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      animation: ringPulse 7s infinite alternate ease-in-out 1s; 
     }
 
     /* === ПРАВАЯ РАБОЧАЯ ЗОНА === */
@@ -406,7 +408,6 @@
       letter-spacing: 2px;
     }
 
-    /* Элементы плеера */
     .footer-player {
       display: flex;
       align-items: center;
@@ -436,7 +437,6 @@
       box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
     }
 
-    /* Иконка Play/Pause внутри кнопки */
     .play-icon {
       width: 0;
       height: 0;
@@ -468,6 +468,7 @@
       text-transform: uppercase;
       letter-spacing: 1.5px;
       color: var(--text-main);
+      text-align: center;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -478,7 +479,6 @@
       font-weight: 500;
     }
 
-    /* Прогресс-бар */
     .player-progress-container {
       width: 100%;
       height: 4px;
@@ -514,7 +514,7 @@
     /* === МОБИЛЬНАЯ АДАПТАЦИЯ === */
     @media (max-width: 1024px) {
       body {
-        padding-bottom: 110px; /* Больше места под футер на мобилках */
+        padding-bottom: 110px; 
       }
       .layout {
         flex-direction: column;
@@ -571,21 +571,21 @@
   <div class="layout">
     <!-- Левая панель -->
     <aside class="sidebar">
-      
+
       <!-- Контейнер с заголовком -->
       <div class="hero-container">
-        
+
         <!-- Блок DREAM -->
         <div class="dream-box">
           <video class="dream-video" autoplay loop muted playsinline>
             <source src="bg-video.mp4" type="video/mp4">
           </video>
           <div class="dream-video-gradient"></div>
-          
+
           <!-- Стеклянный шрифт Syne -->
           <h1 class="dream-title">Dream</h1>
         </div>
-        
+
         <!-- Текст FLASHR -->
         <h1 class="flashr-title">flashr.</h1>
         <div class="portfolio-badge">Portfolio</div>
@@ -641,11 +641,11 @@
     </main>
   </div>
 
-  <!-- Полноценный корпоративный футер-плеер -->
+  <!-- Корпоративный черный подвал -->
   <footer class="corporate-footer">
     <span class="vibecoded-text">proudly vibecoded.</span>
 
-    <!-- Встроенный плеер -->
+    <!-- Встроенный плеер (текст Pierre Bourne / Heart Say по центру) -->
     <div class="footer-player" id="footerPlayer">
       <button class="player-btn" id="playPauseBtn">
         <div class="play-icon"></div>
@@ -665,7 +665,7 @@
 
   <!-- Аудиоэлемент -->
   <audio id="trackAudio" loop>
-    <source src="https://cdn.glitch.global/0394747b-8395-46f9-9069-450f38b2512a/Pierre%20Bourne%20-%20Heart%20Say.mp3?v=1680000000000" type="audio/mp3">
+    <source src="heartsay.mp3" type="audio/mp3">
   </audio>
 
   <script>
@@ -677,7 +677,7 @@
       button.addEventListener('click', () => {
         buttons.forEach(btn => btn.classList.remove('active'));
         contents.forEach(content => content.classList.remove('active'));
-        
+
         button.classList.add('active');
         const targetId = button.getAttribute('data-target');
         document.getElementById(targetId).classList.add('active');
@@ -696,7 +696,8 @@
         audio.play().then(() => {
           playerContainer.classList.add('playing');
         }).catch(err => {
-          console.log("Автозапуск заблокирован браузером:", err);
+          console.error("Ошибка воспроизведения (проверь путь к файлу или блокировку браузера):", err);
+          alert("Не удалось запустить аудио. Проверь, загружен ли файл MP3 в папку с сайтом!");
         });
       } else {
         audio.pause();
@@ -704,7 +705,13 @@
       }
     });
 
-    // Обновление прогресс-бара
+    // Когда трек заканчивается, возвращаем кнопку в исходное состояние
+    audio.addEventListener('ended', () => {
+      playerContainer.classList.remove('playing');
+      progressBar.style.width = '0%';
+    });
+
+    // Обновление прогресс-бара по ходу песни
     audio.addEventListener('timeupdate', () => {
       if (audio.duration) {
         const percent = (audio.currentTime / audio.duration) * 100;
@@ -712,7 +719,7 @@
       }
     });
 
-    // Клик по прогресс-бару для перемотки
+    // Клик по полоске прогресс-бара для перемотки
     progressContainer.addEventListener('click', (e) => {
       const width = progressContainer.clientWidth;
       const clickX = e.offsetX;
