@@ -3,20 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DREAMFLASHER</title>
+  <title>dream flashr. | portfolio</title>
 
-  <!-- Запасной готический шрифт с Google Fonts -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap">
+  <!-- Подключение шрифтов: Kanit (заголовки) и Plus Jakarta Sans (текст) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    @font-face {
-      font-family: 'Royal2';
-      src: url('Royal2.ttf') format('truetype'),
-           url('Royal2.otf') format('opentype');
-      font-weight: normal;
-      font-style: normal;
-    }
-
+    /* === БАЗОВЫЕ НАСТРОЙКИ === */
     * {
       margin: 0;
       padding: 0;
@@ -24,377 +19,347 @@
     }
 
     body {
-      background-color: #000;
-      color: #fff;
-      font-family: monospace, monospace;
+      background-color: #14110f; /* Премиальный темно-коричневый (Espresso) */
+      color: #e8e3df; /* Мягкий светлый оттенок для текста вместо чистого белого */
+      font-family: 'Plus Jakarta Sans', sans-serif;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 40px 20px;
       overflow-x: hidden;
     }
 
-    /* ЭКРАН ИНТРО (ЗАСТАВКА) */
-    #intro-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
+    /* === СЕТКА МАКЕТА === */
+    .layout {
+      display: flex;
+      min-height: 100vh;
       width: 100vw;
-      height: 100vh;
-      background-color: #000;
-      z-index: 100;
+    }
+
+    /* === ЛЕВАЯ ПАНЕЛЬ (ВИДЕО ФОН) === */
+    .sidebar {
+      width: 35%;
+      position: relative;
+      overflow: hidden; /* Обрезает видео, чтобы оно не вылезало за края */
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: opacity 1.2s ease, visibility 1.2s;
+      justify-content: flex-start;
     }
 
-    .lyric-line {
-      font-size: 1.5rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin: 10px 0;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: all 0.8s ease;
-      color: #aaa;
-    }
-
-    .lyric-line.active {
-      opacity: 1;
-      transform: translateY(0);
-      color: #fff;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-    }
-
-    .click-hint {
+    /* Само фоновое видео */
+    .sidebar-video {
       position: absolute;
-      bottom: 40px;
-      font-size: 0.8rem;
-      letter-spacing: 3px;
-      color: #555;
-      text-transform: uppercase;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 0.8; }
-    }
-
-    /* ФОНОВОЕ ВИДЕО */
-    .video-bg {
-      position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      z-index: -3;
-      filter: brightness(0.35) contrast(1.2);
-    }
-
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: radial-gradient(circle, transparent 30%, rgba(0, 0, 0, 0.85) 100%);
-      z-index: -2;
-      pointer-events: none;
-    }
-
-    /* === [СЕТКА ИЗ ЧЕРЕПОВ НА ВЕСЬ ЭКРАН] === */
-    .skull-grid-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      /* Накладываем линии сетки + много маленьких skull.gif */
-      background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-        url('skull.gif');
-      background-size: 50px 50px, 50px 50px, 50px 50px; /* Размер ячеек сетки и черепов */
-      background-repeat: repeat;
-      z-index: -1;
-      pointer-events: none;
-      opacity: 0.25; /* Прозрачность сетки, чтобы видео просвечивало */
-      image-rendering: pixelated;
-    }
-
-    /* ГИФКА REI В УГЛУ */
-    .rei-float {
-      position: fixed;
-      bottom: 15px;
-      right: 15px;
-      max-width: 180px;
-      z-index: 10;
-      pointer-events: none;
-      opacity: 0.85;
-      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
-      image-rendering: pixelated; 
-    }
-
-    /* ГОТИЧЕСКИЙ ЗАГОЛОВОК С ОГНЕННОЙ ТЕКСТУРОЙ */
-    .header-title {
-      font-family: 'Royal2', 'Pirata One', serif;
-      font-size: 5rem;
-      text-align: center;
-      margin-bottom: 25px;
-      user-select: none;
-      text-transform: uppercase;
-      letter-spacing: 4px;
-
-      background-image: url('fire2.gif');
-      background-repeat: repeat;
-      background-size: 120px auto;
-      background-position: center;
-      -webkit-background-clip: text;
-      background-clip: text;
-      
-      -webkit-text-fill-color: transparent;
-      color: transparent;
-
-      filter: 
-        drop-shadow(0 0 3px #ffdc17)
-        drop-shadow(0 0 8px rgba(255, 144, 0, 0.6));
-
-      animation: firePulse 1.8s infinite alternate ease-in-out;
-      image-rendering: pixelated;
-    }
-
-    @keyframes firePulse {
-      0% {
-        filter: 
-          drop-shadow(0 0 2px #ffdc17)
-          drop-shadow(0 0 6px rgba(255, 144, 0, 0.4));
-      }
-      100% {
-        filter: 
-          drop-shadow(0 0 5px #ffee75)
-          drop-shadow(0 0 12px rgba(255, 119, 0, 0.7));
-      }
-    }
-
-    /* ЦЕНТРАЛЬНАЯ КАРТОЧКА */
-    .main-card {
       width: 100%;
-      max-width: 520px;
-      background: rgba(10, 10, 10, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.9), inset 0 0 15px rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(12px);
-      border-radius: 8px;
-      padding: 30px;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    /* Тонировка поверх видео для читаемости текста и сохранения стиля */
+    .sidebar-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(28, 163, 184, 0.75), rgba(20, 17, 15, 0.8));
+      z-index: 2;
+    }
+
+    /* Контент поверх видео */
+    .sidebar-content {
+      position: relative;
+      z-index: 3;
+      padding: 60px 40px;
+    }
+
+    .sidebar h1 {
+      font-family: 'Kanit', sans-serif;
+      font-size: 5.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      color: #ffffff;
+      margin-bottom: 15px;
+      letter-spacing: -1px;
+    }
+
+    .sidebar p {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: #ffffff;
+      opacity: 0.85;
+      letter-spacing: 1px;
+    }
+
+    /* === ПРАВАЯ РАБОЧАЯ ЗОНА === */
+    .main-content {
+      width: 65%;
+      padding: 80px 10%;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 25px;
-      z-index: 5;
     }
 
-    /* === [ГИТАРА ПОД КАРТОЧКОЙ] === */
-    .guitar-img {
-      margin-top: 25px;
-      max-width: 180px;
-      height: auto;
-      z-index: 5;
-      image-rendering: pixelated;
-      filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.15));
-    }
-
-    .audio-control {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 12px 20px;
-      border-radius: 4px;
+    /* === НАВИГАЦИЯ (МЕНЮ) === */
+    .top-nav {
       display: flex;
+      justify-content: center;
+      gap: 50px;
+      margin-bottom: 60px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      color: rgba(232, 227, 223, 0.3);
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .nav-btn:hover {
+      color: rgba(232, 227, 223, 0.8);
+      transform: translateY(-2px);
+    }
+
+    .nav-btn.active {
+      color: #1ca3b8; /* Активная вкладка подсвечивается циановым */
+    }
+
+    /* === КОНТЕНТ ВКЛАДОК === */
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Оформление текста "About me" */
+    .about-text {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: #9c928d; /* Мягкий бежево-серый цвет для хорошей читаемости на коричневом */
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .about-text p {
+      margin-bottom: 25px;
+    }
+
+    /* Оформление карточек "Repositories" */
+    .repos-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .repo-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 30px;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+
+    .repo-card:hover {
+      background: rgba(28, 163, 184, 0.05);
+      border-color: rgba(28, 163, 184, 0.4);
+      transform: translateX(8px);
+    }
+
+    .repo-title {
+      font-family: 'Kanit', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #e8e3df;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+      transition: color 0.3s ease;
+    }
+
+    .repo-card:hover .repo-title {
+      color: #1ca3b8; /* Заголовок красится в циан при наведении */
+    }
+
+    .repo-desc {
+      font-size: 1rem;
+      color: #9c928d;
+      line-height: 1.6;
+    }
+
+    /* Оформление кнопок "Socials" */
+    .socials-grid {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .social-btn {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .audio-control:hover {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: #fff;
-    }
-
-    .audio-control span {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-    }
-
-    .divider {
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    }
-
-    .links-section {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .links-title {
-      font-size: 0.7rem;
-      color: #888;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      text-align: center;
-      margin-bottom: 5px;
-    }
-
-    .link-btn {
-      width: 100%;
-      display: block;
-      text-align: center;
-      padding: 12px;
-      color: #ccc;
+      padding: 14px 45px;
+      background: #1ca3b8;
+      color: #14110f;
       text-decoration: none;
-      text-transform: uppercase;
-      font-size: 0.85rem;
-      letter-spacing: 2px;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px dashed rgba(255, 255, 255, 0.25);
-      transition: all 0.2s ease;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
     }
 
-    .link-btn:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.1);
-      border-style: solid;
-      border-color: #fff;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    .social-btn:hover {
+      background: #22c1d9;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(28, 163, 184, 0.25);
     }
 
-    @media (max-width: 600px) {
-      body {
-        padding: 20px 10px;
+    .social-btn.outline {
+      background: transparent;
+      color: #1ca3b8;
+      border: 2px solid #1ca3b8;
+    }
+
+    .social-btn.outline:hover {
+      background: rgba(28, 163, 184, 0.1);
+      box-shadow: none;
+    }
+
+    /* === МОБИЛЬНАЯ АДАПТАЦИЯ === */
+    @media (max-width: 900px) {
+      .layout {
+        flex-direction: column;
       }
-      .header-title {
-        font-size: 2.8rem;
+      .sidebar {
+        width: 100%;
+        min-height: 40vh;
+        justify-content: center;
       }
-      .main-card {
-        padding: 20px;
+      .sidebar-content {
+        padding: 50px 30px;
       }
-      .rei-float {
-        max-width: 100px;
-        bottom: 10px;
-        right: 10px;
+      .sidebar h1 {
+        font-size: 4rem;
       }
-      .guitar-img {
-        max-width: 130px;
+      .main-content {
+        width: 100%;
+        padding: 40px 30px;
+      }
+      .top-nav {
+        gap: 20px;
+      }
+      .nav-btn {
+        font-size: 1rem;
+      }
+      .socials-grid {
+        flex-direction: column;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Заставка (Intro) -->
-  <div id="intro-screen">
-    <p class="lyric-line" id="line1">first line of the song...</p>
-    <p class="lyric-line" id="line2">second line comes next...</p>
-    <div class="click-hint">[ кликни в любом месте ]</div>
+  <div class="layout">
+    
+    <!-- Левая панель с видео и оверлеем -->
+    <aside class="sidebar">
+      <!-- Фоновое видео (автовоспроизведение, без звука, зациклено) -->
+      <video class="sidebar-video" autoplay loop muted playsinline>
+        <source src="bg-video.mp4" type="video/mp4">
+      </video>
+      
+      <!-- Цветовой градиент-фильтр поверх видео -->
+      <div class="sidebar-overlay"></div>
+      
+      <!-- Контент сайдбара -->
+      <div class="sidebar-content">
+        <h1>dream<br>flashr.</h1>
+        <p>Portfolio</p>
+      </div>
+    </aside>
+
+    <!-- Правая панель с контентом -->
+    <main class="main-content">
+      
+      <!-- Меню -->
+      <nav class="top-nav">
+        <button class="nav-btn active" data-target="about">about me!</button>
+        <button class="nav-btn" data-target="repos">repositories!</button>
+        <button class="nav-btn" data-target="socials">socials!</button>
+      </nav>
+
+      <!-- Вкладка 1: About Me -->
+      <section id="about" class="tab-content active">
+        <div class="about-text">
+          <p>Привет! Я разработчик и креатор. Обожаю экспериментировать с дизайном, кодом и создавать вещи, которые не только работают, но и круто выглядят.</p>
+          <p>Мой стек: HTML, CSS, JavaScript, немного магии и хороший вкус. Всегда открыт к новым идеям и нестандартным проектам.</p>
+        </div>
+      </section>
+
+      <!-- Вкладка 2: Repositories -->
+      <section id="repos" class="tab-content">
+        <div class="repos-list">
+          
+          <div class="repo-card">
+            <h3 class="repo-title">dreamflashr.github.io</h3>
+            <p class="repo-desc">Исходный код этого прекрасного портфолио. HTML, CSS, чистый кайф.</p>
+          </div>
+
+          <div class="repo-card">
+            <h3 class="repo-title">project-neon</h3>
+            <p class="repo-desc">Экспериментальный проект с WebGL и шейдерами. Очень много свечения и анимаций.</p>
+          </div>
+
+          <div class="repo-card">
+            <h3 class="repo-title">telegram-bot-core</h3>
+            <p class="repo-desc">Основа для создания быстрых ботов на Node.js с удобной архитектурой.</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Вкладка 3: Socials -->
+      <section id="socials" class="tab-content">
+        <div class="socials-grid">
+          <a href="https://github.com/dreamflashr" target="_blank" class="social-btn">GitHub</a>
+          <a href="https://t.me/handsm" target="_blank" class="social-btn outline">Telegram</a>
+        </div>
+      </section>
+
+    </main>
   </div>
 
-  <!-- Фоновое видео -->
-  <video class="video-bg" id="bgVideo" autoplay loop muted playsinline webkit-playsinline preload="auto">
-    <source src="bg-video.mp4" type="video/mp4">
-  </video>
-
-  <div class="overlay"></div>
-
-  <!-- Сетка из черепов на заднем плане -->
-  <div class="skull-grid-overlay"></div>
-
-  <!-- Гифка REI -->
-  <img src="rei.gif" alt="Rei" class="rei-float">
-
-  <!-- Огненный заголовок -->
-  <h1 class="header-title">DREAMFLASHER</h1>
-
-  <!-- Центральная рабочая область -->
-  <main class="main-card">
-    
-    <div class="audio-control" id="playBtn">
-      <span id="playIcon">❚❚</span>
-      <span id="playText">DREAMFLASHER — JANE REMOVER</span>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="links-section">
-      <div class="links-title">// LINKS & SOCIALS</div>
-      
-      <a href="https://github.com/dreamflashr/dreamflashr.github.io" target="_blank" class="link-btn">
-        [ SOURCE REPOSITORY ]
-      </a>
-      
-      <a href="https://soundcloud.com" target="_blank" class="link-btn">
-        [ SOUNDCLOUD ]
-      </a>
-      
-      <a href="https://t.me" target="_blank" class="link-btn">
-        [ TELEGRAM ]
-      </a>
-    </div>
-
-  </main>
-
-  <!-- Гитара под рабочей областью -->
-  <img src="guitar.gif" alt="Guitar" class="guitar-img">
-
-  <audio id="bgMusic" loop>
-    <source src="dreamflasher.mp3" type="audio/mpeg">
-  </audio>
-
   <script>
-    const introScreen = document.getElementById('intro-screen');
-    const music = document.getElementById('bgMusic');
-    const video = document.getElementById('bgVideo');
-    const playBtn = document.getElementById('playBtn');
-    const playIcon = document.getElementById('playIcon');
-    const line1 = document.getElementById('line1');
-    const line2 = document.getElementById('line2');
+    const buttons = document.querySelectorAll('.nav-btn');
+    const contents = document.querySelectorAll('.tab-content');
 
-    setTimeout(() => line1.classList.add('active'), 600);
-    setTimeout(() => line2.classList.add('active'), 1800);
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        buttons.forEach(btn => btn.classList.remove('active'));
+        contents.forEach(content => content.classList.remove('active'));
 
-    introScreen.addEventListener('click', () => {
-      music.play();
-      if (video) {
-        video.play().catch(() => {});
-      }
-      introScreen.style.opacity = '0';
-      introScreen.style.visibility = 'hidden';
-      document.body.style.overflow = 'auto';
-    });
+        button.classList.add('active');
 
-    let isPlaying = true;
-    playBtn.addEventListener('click', () => {
-      if (!isPlaying) {
-        music.play();
-        playIcon.textContent = '❚❚';
-        isPlaying = true;
-      } else {
-        music.pause();
-        playIcon.textContent = '▶';
-        isPlaying = false;
-      }
+        const targetId = button.getAttribute('data-target');
+        document.getElementById(targetId).classList.add('active');
+      });
     });
   </script>
+
 </body>
 </html>
