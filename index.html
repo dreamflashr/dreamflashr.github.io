@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DREAMFLASHER | PORTFOLIO</title>
 
-  <!-- Шрифты -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    /* === ПАЛИТРА И ПЕРЕМЕННЫЕ === */
+    /* === ПАЛИТРА "VIBECODED" (Graphite + Neon Violet) === */
     :root {
-      --bg-brown: #14110f;
-      --bg-black: #050505;
-      --accent-cyan: #1ca3b8;
-      --text-main: #e8e3df;
-      --text-muted: #9c928d;
-      --border-color: rgba(28, 163, 184, 0.15);
+      --bg-main: #09090b; /* Очень глубокий темно-серый, почти черный */
+      --bg-card: #111113; /* Чуть светлее для карточек */
+      --bg-black: #000000; /* Глухой черный для футера */
+      --accent-neon: #8b5cf6; /* Неоновый фиолетовый/индиго */
+      --text-main: #f4f4f5; /* Чистый белый с легким пепельным оттенком */
+      --text-muted: #a1a1aa; /* Приглушенный серый для описаний */
+      --border-color: rgba(255, 255, 255, 0.08); /* Очень тонкие полупрозрачные рамки */
     }
 
     * {
@@ -28,12 +28,12 @@
     }
 
     body {
-      background-color: var(--bg-brown);
+      background-color: var(--bg-main);
       color: var(--text-main);
       font-family: 'Libre Franklin', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
-      padding-bottom: 50px; /* Отступ под корпоративный футер */
+      padding-bottom: 50px;
     }
 
     /* === СЕТКА МАКЕТА === */
@@ -50,23 +50,24 @@
       top: 0;
       left: 0;
       height: 100vh;
-      background-color: var(--bg-brown);
+      background-color: var(--bg-main);
       border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start; /* Поднимаем контент в самый верх */
+      padding-top: 8vh; /* Аккуратный отступ сверху */
       z-index: 10;
     }
 
-    /* Мягкое неоновое свечение позади текста */
-    .cyan-glow {
+    /* Мягкое неоновое свечение позади текста (теперь фиолетовое) */
+    .neon-glow {
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 15%; /* Поднял свечение вслед за текстом */
+      left: 40%;
       transform: translate(-50%, -50%);
-      width: 350px;
-      height: 350px;
-      background: var(--accent-cyan);
+      width: 300px;
+      height: 300px;
+      background: var(--accent-neon);
       filter: blur(120px);
       opacity: 0.15;
       z-index: 0;
@@ -86,8 +87,8 @@
     .dream-box {
       position: relative;
       display: inline-block;
-      overflow: hidden; /* Обрезаем видео строго по границам этого блока */
-      margin-bottom: -5px; /* Прижимаем нижний текст */
+      overflow: hidden; 
+      margin-bottom: -5px; 
     }
 
     .dream-video {
@@ -98,7 +99,7 @@
       height: 100%;
       object-fit: cover;
       z-index: 1;
-      filter: brightness(0.6) contrast(1.2); /* Приглушаем видео для читаемости текста */
+      filter: brightness(0.7) contrast(1.1) grayscale(30%); /* Видео чуть более монохромное для стиля */
     }
 
     .dream-title {
@@ -109,12 +110,12 @@
       font-weight: 900;
       line-height: 1;
       text-transform: uppercase;
-      padding: 10px 20px; /* Отступы создают ту самую рамку для видео (красный пунктир на твоем скрине) */
+      padding: 10px 20px; 
       
       /* ЭФФЕКТ СТЕКЛЯННЫХ БУКВ */
-      color: rgba(255, 255, 255, 0.15); /* Полупрозрачная заливка (стекло) */
-      -webkit-text-stroke: 2px rgba(255, 255, 255, 0.9); /* Четкие грани стекла */
-      text-shadow: 0 10px 20px rgba(0, 0, 0, 0.6); /* Объемная тень от букв на видео */
+      color: rgba(255, 255, 255, 0.15); 
+      -webkit-text-stroke: 2px rgba(255, 255, 255, 0.9); 
+      text-shadow: 0 10px 20px rgba(0, 0, 0, 0.8); 
       letter-spacing: -2px;
     }
 
@@ -126,21 +127,21 @@
       font-size: clamp(4rem, 6vw, 6.5rem);
       font-weight: 900;
       line-height: 0.9;
-      color: #ffffff; /* Плотный белый текст */
+      color: var(--text-main); 
       text-transform: uppercase;
       letter-spacing: -2px;
       margin-bottom: 25px;
-      padding-left: 20px; /* Выравниваем с DREAM */
+      padding-left: 20px; 
     }
 
     .portfolio-badge {
       position: relative;
       z-index: 2;
       font-family: 'Space Mono', monospace;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 700;
-      color: var(--bg-brown);
-      background-color: var(--accent-cyan);
+      color: var(--bg-main);
+      background-color: var(--accent-neon);
       display: inline-block;
       padding: 8px 16px;
       text-transform: uppercase;
@@ -150,7 +151,7 @@
 
     /* === ПРАВАЯ РАБОЧАЯ ЗОНА === */
     .main-content {
-      margin-left: 35%; /* Отступ на ширину сайдбара */
+      margin-left: 35%; 
       width: 65%;
       padding: 10vh 8% 80px;
       display: flex;
@@ -170,7 +171,7 @@
     .nav-btn {
       background: none;
       border: none;
-      color: rgba(232, 227, 223, 0.3);
+      color: rgba(244, 244, 245, 0.3);
       font-family: 'Montserrat', sans-serif; 
       font-size: 1.1rem;
       font-weight: 800;
@@ -186,7 +187,7 @@
     }
 
     .nav-btn.active {
-      color: var(--accent-cyan);
+      color: var(--accent-neon);
     }
 
     .nav-btn.active::after {
@@ -196,7 +197,8 @@
       left: 0;
       width: 100%;
       height: 3px;
-      background-color: var(--accent-cyan);
+      background-color: var(--accent-neon);
+      box-shadow: 0 -2px 10px rgba(139, 92, 246, 0.5); /* Легкое неоновое свечение линии */
     }
 
     /* === КОНТЕНТ ВКЛАДОК === */
@@ -230,7 +232,7 @@
       color: var(--text-main);
       font-size: 1.25rem;
       font-weight: 500;
-      border-left: 3px solid var(--accent-cyan);
+      border-left: 3px solid var(--accent-neon);
       padding-left: 20px;
     }
 
@@ -242,8 +244,8 @@
     }
 
     .repo-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(28, 163, 184, 0.15);
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
       border-radius: 8px;
       padding: 35px 30px;
       transition: all 0.3s ease;
@@ -251,10 +253,10 @@
     }
 
     .repo-card:hover {
-      background: rgba(28, 163, 184, 0.05);
-      border-color: var(--accent-cyan);
+      background: rgba(139, 92, 246, 0.05); /* Легкая фиолетовая заливка */
+      border-color: var(--accent-neon);
       transform: translateX(8px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     }
 
     .repo-title {
@@ -268,7 +270,7 @@
     }
 
     .repo-card:hover .repo-title {
-      color: var(--accent-cyan);
+      color: var(--accent-neon);
     }
 
     .repo-desc {
@@ -288,8 +290,8 @@
       align-items: center;
       justify-content: center;
       padding: 16px 45px;
-      background: var(--accent-cyan);
-      color: var(--bg-brown);
+      background: var(--accent-neon);
+      color: var(--bg-main);
       text-decoration: none;
       font-family: 'Montserrat', sans-serif;
       font-weight: 800;
@@ -298,23 +300,26 @@
       letter-spacing: 1px;
       border-radius: 6px;
       transition: all 0.3s ease;
-      border: 2px solid var(--accent-cyan);
+      border: 2px solid var(--accent-neon);
     }
 
     .social-btn:hover {
       background: transparent;
-      color: var(--accent-cyan);
+      color: var(--accent-neon);
       transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(139, 92, 246, 0.2);
     }
 
     .social-btn.outline {
       background: transparent;
-      color: var(--accent-cyan);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
     }
 
     .social-btn.outline:hover {
-      background: var(--accent-cyan);
-      color: var(--bg-brown);
+      background: var(--accent-neon);
+      color: var(--bg-main);
+      border-color: var(--accent-neon);
     }
 
     /* === КОРПОРАТИВНЫЙ ЧЕРНЫЙ ФУТЕР === */
@@ -326,16 +331,17 @@
       height: 50px;
       background-color: var(--bg-black);
       display: flex;
-      justify-content: flex-end; /* Текст прижат вправо */
+      justify-content: space-between; /* Разносит элементы по краям */
       align-items: center;
       padding: 0 5%;
       z-index: 100;
+      border-top: 1px solid var(--border-color);
     }
 
     .corporate-footer span {
       font-family: 'Space Mono', monospace;
       color: rgba(255, 255, 255, 0.4);
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 2px;
       transition: color 0.3s ease;
@@ -343,7 +349,11 @@
     }
 
     .corporate-footer span:hover {
-      color: var(--accent-cyan);
+      color: var(--accent-neon);
+    }
+
+    .vibecoded-text {
+      color: rgba(255, 255, 255, 0.2);
     }
 
     /* === МОБИЛЬНАЯ АДАПТАЦИЯ === */
@@ -380,7 +390,10 @@
         flex-direction: column;
       }
       .corporate-footer {
+        flex-direction: column;
         justify-content: center;
+        gap: 5px;
+        height: 60px;
       }
     }
   </style>
@@ -388,12 +401,10 @@
 <body>
 
   <div class="layout">
-    <!-- Левая панель -->
     <aside class="sidebar">
-      <div class="cyan-glow"></div>
+      <div class="neon-glow"></div>
       
       <div class="hero-container">
-        <!-- Блок DREAM с фоновым видео и стеклянными буквами -->
         <div class="dream-box">
           <video class="dream-video" autoplay loop muted playsinline>
             <source src="bg-video.mp4" type="video/mp4">
@@ -401,13 +412,11 @@
           <h1 class="dream-title">Dream</h1>
         </div>
         
-        <!-- Текст FLASHR на обычном фоне -->
         <h1 class="flashr-title">flashr.</h1>
         <div class="portfolio-badge">Portfolio</div>
       </div>
     </aside>
 
-    <!-- Правая панель с контентом -->
     <main class="main-content">
       <nav class="top-nav">
         <button class="nav-btn active" data-target="about">about me</button>
@@ -448,8 +457,8 @@
     </main>
   </div>
 
-  <!-- Корпоративный черный подвал на всю ширину -->
   <footer class="corporate-footer">
+    <span class="vibecoded-text">proudly vibecoded.</span>
     <span>@ dreamflasher 2026</span>
   </footer>
 
