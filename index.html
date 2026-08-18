@@ -5,22 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DREAMFLASHER | PORTFOLIO</title>
 
+  <!-- Шрифты -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
   <style>
     /* === ПАЛИТРА === */
     :root {
-      --bg-main: #09090b; /* Темный графит для правой части */
-      --bg-black: #000000; /* Идеальный черный для сайдбара и футера */
+      --bg-main: #09090b; 
+      --bg-black: #000000; 
       --bg-card: #111113;
-      --accent-neon: #00e5ff;
+      --accent-neon: #00e5ff; 
       --text-main: #f4f4f5;
       --text-muted: #a1a1aa;
       --border-color: rgba(255, 255, 255, 0.05);
       
-      --hero-pad-left: calc(10% + 20px);
+      --hero-pad-left: 8%; 
     }
 
     * {
@@ -35,7 +36,7 @@
       font-family: 'Libre Franklin', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
-      padding-bottom: 50px;
+      padding-bottom: 70px; /* Увеличили отступ под полноценный футер-плеер */
     }
 
     /* === СЕТКА МАКЕТА === */
@@ -52,13 +53,14 @@
       top: 0;
       left: 0;
       height: 100vh;
-      background-color: var(--bg-black); /* Полностью черный фон */
+      background-color: var(--bg-black);
       border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       padding-top: 0;
       z-index: 10;
+      overflow: hidden; 
     }
 
     .hero-container {
@@ -90,16 +92,16 @@
       height: 100%;
       object-fit: cover;
       z-index: 1;
-      filter: brightness(0.7) contrast(1.1); /* Делаем видео сочным, но не ярким */
+      filter: blur(25px) brightness(0.7) contrast(1.2); 
+      transform: scale(1.15);
     }
 
-    /* Черный градиент для плавного перехода видео в черный фон сайдбара */
     .dream-video-gradient {
       position: absolute;
-      bottom: -1px; /* Убираем зазор */
+      bottom: -1px; 
       left: 0;
       width: 100%;
-      height: 120px; /* Высота градиента для плавности */
+      height: 120px; 
       background: linear-gradient(to top, #000000 0%, rgba(0, 0, 0, 0.7) 40%, transparent 100%);
       z-index: 2;
     }
@@ -107,22 +109,21 @@
     .dream-title {
       position: relative;
       z-index: 3;
-      font-family: 'Montserrat', sans-serif;
-      font-size: clamp(4rem, 6vw, 6.5rem);
-      font-weight: 900;
+      font-family: 'Syne', sans-serif; 
+      font-size: clamp(2rem, 4.2vw, 5rem); 
+      font-weight: 800;
       line-height: 0.9;
       text-transform: uppercase;
       padding-left: var(--hero-pad-left);
       margin-bottom: -5px;
       
-      /* ИСТИННЫЙ СТЕКЛОМОРФИЗМ НА САМОМ ШРИФТЕ */
       color: transparent;
-      background: rgba(255, 255, 255, 0.15); /* Полупрозрачная белая заливка */
-      backdrop-filter: blur(15px); /* Размытие фона */
+      background: rgba(255, 255, 255, 0.15); 
+      backdrop-filter: blur(15px); 
       -webkit-backdrop-filter: blur(15px);
-      -webkit-background-clip: text; /* Обрезаем размытие по контуру букв */
+      -webkit-background-clip: text; 
       background-clip: text;
-      filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.9)); /* Глубокая тень для объема */
+      filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.9)); 
       letter-spacing: -2px;
     }
 
@@ -130,9 +131,9 @@
     .flashr-title {
       position: relative;
       z-index: 2;
-      font-family: 'Montserrat', sans-serif;
-      font-size: clamp(4rem, 6vw, 6.5rem);
-      font-weight: 900;
+      font-family: 'Syne', sans-serif; 
+      font-size: clamp(2rem, 4.2vw, 5rem); 
+      font-weight: 800;
       line-height: 0.9;
       color: var(--text-main); 
       text-transform: uppercase;
@@ -148,13 +149,64 @@
       font-family: 'Space Mono', monospace;
       font-size: 0.85rem;
       font-weight: 700;
-      color: var(--bg-black); /* Делаем текст плашки черным */
+      color: var(--bg-black);
       background-color: var(--accent-neon);
       display: inline-block;
       padding: 8px 16px;
       text-transform: uppercase;
       letter-spacing: 2px;
       margin-left: var(--hero-pad-left);
+    }
+
+    /* === АНИМИРОВАННЫЕ КОЛЬЦА === */
+    .sidebar-rings {
+      position: absolute;
+      top: 70%;
+      left: 0;
+      transform: translateY(-50%);
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .ring {
+      position: absolute;
+      top: 50%;
+      left: 0; 
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+    }
+
+    @keyframes ringPulse {
+      0% {
+        transform: translate(-50%, -50%) scale(0.95);
+        opacity: 0.6;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1.05);
+        opacity: 1;
+      }
+    }
+
+    .ring-1 {
+      width: 250px;
+      height: 250px;
+      border: 3px solid rgba(0, 229, 255, 0.5);
+      box-shadow: 0 0 25px rgba(0, 229, 255, 0.3), inset 0 0 25px rgba(0, 229, 255, 0.3);
+      animation: ringPulse 4s infinite alternate ease-in-out;
+    }
+
+    .ring-2 {
+      width: 450px;
+      height: 450px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      animation: ringPulse 6s infinite alternate ease-in-out 1s; 
+    }
+
+    .ring-3 {
+      width: 650px;
+      height: 650px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      animation: ringPulse 8s infinite alternate ease-in-out 2s; 
     }
 
     /* === ПРАВАЯ РАБОЧАЯ ЗОНА === */
@@ -180,10 +232,10 @@
       background: none;
       border: none;
       color: rgba(244, 244, 245, 0.3);
-      font-family: 'Montserrat', sans-serif; 
+      font-family: 'Syne', sans-serif; 
       font-size: 1.1rem;
       font-weight: 800;
-      letter-spacing: 1px;
+      letter-spacing: 2.5px;
       text-transform: uppercase;
       cursor: pointer;
       position: relative;
@@ -192,6 +244,7 @@
 
     .nav-btn:hover {
       color: var(--text-main);
+      letter-spacing: 3.5px;
     }
 
     .nav-btn.active {
@@ -224,7 +277,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Обо мне */
     .about-text {
       font-size: 1.15rem;
       line-height: 1.8;
@@ -268,7 +320,7 @@
     }
 
     .repo-title {
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'Syne', sans-serif; 
       font-size: 1.4rem;
       font-weight: 800;
       color: var(--text-main);
@@ -301,11 +353,11 @@
       background: var(--accent-neon);
       color: var(--bg-black);
       text-decoration: none;
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'Syne', sans-serif;
       font-weight: 800;
       font-size: 1rem;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       border-radius: 6px;
       transition: all 0.3s ease;
       border: 2px solid var(--accent-neon);
@@ -330,23 +382,122 @@
       border-color: var(--accent-neon);
     }
 
-    /* === КОРПОРАТИВНЫЙ ЧЕРНЫЙ ФУТЕР === */
+    /* === ВСТРОЕННЫЙ ФУТЕР-ПЛЕЕР НА ВСЮ ШИРИНУ === */
     .corporate-footer {
       position: fixed;
       bottom: 0;
       left: 0;
       width: 100vw;
-      height: 50px;
+      height: 60px;
       background-color: var(--bg-black);
       display: flex;
       justify-content: space-between; 
       align-items: center;
-      padding: 0 5%;
+      padding: 0 3%;
       z-index: 100;
       border-top: 1px solid var(--border-color);
     }
 
-    .corporate-footer span {
+    .vibecoded-text {
+      font-family: 'Space Mono', monospace;
+      color: rgba(255, 255, 255, 0.2);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    /* Элементы плеера */
+    .footer-player {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex: 1;
+      max-width: 600px;
+      margin: 0 40px;
+    }
+
+    .player-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+    }
+
+    .player-btn:hover {
+      border-color: var(--accent-neon);
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+    }
+
+    /* Иконка Play/Pause внутри кнопки */
+    .play-icon {
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 5px 0 5px 8px;
+      border-color: transparent transparent transparent var(--text-main);
+      transform: translateX(1px);
+      transition: all 0.2s ease;
+    }
+
+    .footer-player.playing .play-icon {
+      border-style: double;
+      border-width: 0px 0 0px 7px;
+      height: 10px;
+      transform: translateX(0);
+    }
+
+    .player-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .player-title-bar {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .player-title-bar span {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Прогресс-бар */
+    .player-progress-container {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .player-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--accent-neon);
+      box-shadow: 0 0 8px var(--accent-neon);
+      transition: width 0.1s linear;
+    }
+
+    .footer-copyright {
       font-family: 'Space Mono', monospace;
       color: rgba(255, 255, 255, 0.4);
       font-size: 0.75rem;
@@ -356,16 +507,15 @@
       cursor: default;
     }
 
-    .corporate-footer span:hover {
+    .footer-copyright:hover {
       color: var(--accent-neon);
-    }
-
-    .vibecoded-text {
-      color: rgba(255, 255, 255, 0.2);
     }
 
     /* === МОБИЛЬНАЯ АДАПТАЦИЯ === */
     @media (max-width: 1024px) {
+      body {
+        padding-bottom: 110px; /* Больше места под футер на мобилках */
+      }
       .layout {
         flex-direction: column;
       }
@@ -377,6 +527,9 @@
         padding-bottom: 40px;
         border-right: none;
         border-bottom: 1px solid var(--border-color);
+      }
+      .sidebar-rings {
+        display: none; 
       }
       .hero-container {
         padding-left: 0;
@@ -391,6 +544,7 @@
       }
       .nav-btn {
         font-size: 0.95rem;
+        letter-spacing: 1.5px;
       }
       .repos-list {
         grid-template-columns: 1fr;
@@ -401,8 +555,13 @@
       .corporate-footer {
         flex-direction: column;
         justify-content: center;
-        gap: 5px;
-        height: 60px;
+        gap: 10px;
+        height: 100px;
+        padding: 10px 5%;
+      }
+      .footer-player {
+        width: 100%;
+        margin: 0;
       }
     }
   </style>
@@ -410,21 +569,38 @@
 <body>
 
   <div class="layout">
+    <!-- Левая панель -->
     <aside class="sidebar">
+      
+      <!-- Контейнер с заголовком -->
       <div class="hero-container">
         
+        <!-- Блок DREAM -->
         <div class="dream-box">
           <video class="dream-video" autoplay loop muted playsinline>
             <source src="bg-video.mp4" type="video/mp4">
           </video>
-          <div class="dream-video-gradient"></div> <h1 class="dream-title">Dream</h1>
+          <div class="dream-video-gradient"></div>
+          
+          <!-- Стеклянный шрифт Syne -->
+          <h1 class="dream-title">Dream</h1>
         </div>
         
+        <!-- Текст FLASHR -->
         <h1 class="flashr-title">flashr.</h1>
         <div class="portfolio-badge">Portfolio</div>
       </div>
+
+      <!-- Анимированные декоративные кольца -->
+      <div class="sidebar-rings">
+        <div class="ring ring-1"></div>
+        <div class="ring ring-2"></div>
+        <div class="ring ring-3"></div>
+      </div>
+
     </aside>
 
+    <!-- Правая панель с контентом -->
     <main class="main-content">
       <nav class="top-nav">
         <button class="nav-btn active" data-target="about">about me</button>
@@ -465,12 +641,35 @@
     </main>
   </div>
 
+  <!-- Полноценный корпоративный футер-плеер -->
   <footer class="corporate-footer">
     <span class="vibecoded-text">proudly vibecoded.</span>
-    <span>@ dreamflasher 2026</span>
+
+    <!-- Встроенный плеер -->
+    <div class="footer-player" id="footerPlayer">
+      <button class="player-btn" id="playPauseBtn">
+        <div class="play-icon"></div>
+      </button>
+      <div class="player-meta">
+        <div class="player-title-bar">
+          Pierre Bourne <span>/ Heart Say</span>
+        </div>
+        <div class="player-progress-container" id="progressContainer">
+          <div class="player-progress-bar" id="progressBar"></div>
+        </div>
+      </div>
+    </div>
+
+    <span class="footer-copyright">@ dreamflasher 2026</span>
   </footer>
 
+  <!-- Аудиоэлемент -->
+  <audio id="trackAudio" loop>
+    <source src="https://cdn.glitch.global/0394747b-8395-46f9-9069-450f38b2512a/Pierre%20Bourne%20-%20Heart%20Say.mp3?v=1680000000000" type="audio/mp3">
+  </audio>
+
   <script>
+    // Логика переключения вкладок
     const buttons = document.querySelectorAll('.nav-btn');
     const contents = document.querySelectorAll('.tab-content');
 
@@ -483,6 +682,44 @@
         const targetId = button.getAttribute('data-target');
         document.getElementById(targetId).classList.add('active');
       });
+    });
+
+    // Логика кастомного плеера в футере
+    const playerContainer = document.getElementById('footerPlayer');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const audio = document.getElementById('trackAudio');
+    const progressBar = document.getElementById('progressBar');
+    const progressContainer = document.getElementById('progressContainer');
+
+    playPauseBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().then(() => {
+          playerContainer.classList.add('playing');
+        }).catch(err => {
+          console.log("Автозапуск заблокирован браузером:", err);
+        });
+      } else {
+        audio.pause();
+        playerContainer.classList.remove('playing');
+      }
+    });
+
+    // Обновление прогресс-бара
+    audio.addEventListener('timeupdate', () => {
+      if (audio.duration) {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = percent + '%';
+      }
+    });
+
+    // Клик по прогресс-бару для перемотки
+    progressContainer.addEventListener('click', (e) => {
+      const width = progressContainer.clientWidth;
+      const clickX = e.offsetX;
+      const duration = audio.duration;
+      if (duration) {
+        audio.currentTime = (clickX / width) * duration;
+      }
     });
   </script>
 
