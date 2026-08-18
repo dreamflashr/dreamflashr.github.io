@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DREAMFLASHER | PORTFOLIO</title>
 
-  <!-- Шрифты: Libre Franklin, Montserrat, Space Mono -->
+  <!-- Шрифты -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
     /* === ПАЛИТРА И ПЕРЕМЕННЫЕ === */
     :root {
       --bg-brown: #14110f;
-      --bg-black: #000000; /* Глухой черный для футера */
+      --bg-black: #050505;
       --accent-cyan: #1ca3b8;
       --text-main: #e8e3df;
       --text-muted: #9c928d;
@@ -33,7 +33,7 @@
       font-family: 'Libre Franklin', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
-      padding-bottom: 60px; /* Место под черный подвал */
+      padding-bottom: 50px; /* Отступ под корпоративный футер */
     }
 
     /* === СЕТКА МАКЕТА === */
@@ -50,34 +50,46 @@
       top: 0;
       left: 0;
       height: 100vh;
+      background-color: var(--bg-brown);
       border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
-      justify-content: center; /* Центрируем заголовок по вертикали */
-      background-color: var(--bg-brown);
-    }
-
-    /* === ГЛАВНЫЙ ЗАГОЛОВОК (С ВИДЕО И СТЕКЛОМ) === */
-    .hero-text {
-      padding-left: 12%;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
+      justify-content: center;
       z-index: 10;
     }
 
-    /* Контейнер для слова DREAM с видео */
-    .dream-wrapper {
-      position: relative;
-      display: inline-block;
-      border-radius: 8px; /* Слегка скругляем углы стекла */
-      overflow: hidden; /* Обрезаем видео по краям блока */
-      margin-bottom: -15px; /* Прижимаем FLASHR. поближе */
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-      transform: translateX(-20px); /* Выдвигаем стекло чуть влево для динамики */
+    /* Мягкое неоновое свечение позади текста */
+    .cyan-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 350px;
+      height: 350px;
+      background: var(--accent-cyan);
+      filter: blur(120px);
+      opacity: 0.15;
+      z-index: 0;
+      pointer-events: none;
     }
 
-    /* Само видео под словом DREAM */
+    .hero-container {
+      position: relative;
+      z-index: 10;
+      padding-left: 10%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    /* === БЛОК DREAM С ВИДЕО === */
+    .dream-box {
+      position: relative;
+      display: inline-block;
+      overflow: hidden; /* Обрезаем видео строго по границам этого блока */
+      margin-bottom: -5px; /* Прижимаем нижний текст */
+    }
+
     .dream-video {
       position: absolute;
       top: 0;
@@ -85,56 +97,55 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: 0;
-      filter: contrast(1.2) brightness(0.9);
-    }
-
-    /* Матовое стекло и текст DREAM */
-    .dream-glass {
-      position: relative;
       z-index: 1;
-      padding: 15px 30px;
+      filter: brightness(0.6) contrast(1.2); /* Приглушаем видео для читаемости текста */
+    }
+
+    .dream-title {
+      position: relative;
+      z-index: 2;
       font-family: 'Montserrat', sans-serif;
-      font-size: clamp(3.5rem, 5vw, 6rem);
+      font-size: clamp(4rem, 6vw, 6.5rem);
       font-weight: 900;
-      line-height: 0.9;
-      color: #ffffff;
+      line-height: 1;
       text-transform: uppercase;
-      letter-spacing: -2px;
+      padding: 10px 20px; /* Отступы создают ту самую рамку для видео (красный пунктир на твоем скрине) */
       
-      /* Эффект матового стекла (Glassmorphism) */
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-top: 1px solid rgba(255, 255, 255, 0.3); /* Яркий блик сверху */
+      /* ЭФФЕКТ СТЕКЛЯННЫХ БУКВ */
+      color: rgba(255, 255, 255, 0.15); /* Полупрозрачная заливка (стекло) */
+      -webkit-text-stroke: 2px rgba(255, 255, 255, 0.9); /* Четкие грани стекла */
+      text-shadow: 0 10px 20px rgba(0, 0, 0, 0.6); /* Объемная тень от букв на видео */
+      letter-spacing: -2px;
     }
 
-    /* Текст FLASHR. на обычном фоне */
-    .flashr-text {
+    /* === БЛОК FLASHR НА ФОНЕ === */
+    .flashr-title {
+      position: relative;
+      z-index: 2;
       font-family: 'Montserrat', sans-serif;
-      font-size: clamp(3.5rem, 5vw, 6rem);
+      font-size: clamp(4rem, 6vw, 6.5rem);
       font-weight: 900;
       line-height: 0.9;
-      color: var(--text-main);
+      color: #ffffff; /* Плотный белый текст */
       text-transform: uppercase;
       letter-spacing: -2px;
-      padding: 0 10px;
       margin-bottom: 25px;
+      padding-left: 20px; /* Выравниваем с DREAM */
     }
 
-    /* Плашка Portfolio */
     .portfolio-badge {
+      position: relative;
+      z-index: 2;
       font-family: 'Space Mono', monospace;
       font-size: 0.9rem;
       font-weight: 700;
       color: var(--bg-brown);
       background-color: var(--accent-cyan);
       display: inline-block;
-      padding: 6px 14px;
+      padding: 8px 16px;
       text-transform: uppercase;
       letter-spacing: 2px;
-      margin-left: 10px;
+      margin-left: 20px;
     }
 
     /* === ПРАВАЯ РАБОЧАЯ ЗОНА === */
@@ -312,7 +323,7 @@
       bottom: 0;
       left: 0;
       width: 100vw;
-      height: 60px;
+      height: 50px;
       background-color: var(--bg-black);
       display: flex;
       justify-content: flex-end; /* Текст прижат вправо */
@@ -323,8 +334,8 @@
 
     .corporate-footer span {
       font-family: 'Space Mono', monospace;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 2px;
       transition: color 0.3s ease;
@@ -332,14 +343,11 @@
     }
 
     .corporate-footer span:hover {
-      color: #ffffff;
+      color: var(--accent-cyan);
     }
 
     /* === МОБИЛЬНАЯ АДАПТАЦИЯ === */
     @media (max-width: 1024px) {
-      body {
-        padding-bottom: 50px;
-      }
       .layout {
         flex-direction: column;
       }
@@ -351,11 +359,8 @@
         border-right: none;
         border-bottom: 1px solid var(--border-color);
       }
-      .hero-text {
+      .hero-container {
         padding-left: 6%;
-      }
-      .dream-wrapper {
-        transform: none; /* Убираем сдвиг на мобилках */
       }
       .main-content {
         margin-left: 0;
@@ -375,8 +380,7 @@
         flex-direction: column;
       }
       .corporate-footer {
-        height: 50px;
-        justify-content: center; /* На мобилке лучше по центру */
+        justify-content: center;
       }
     }
   </style>
@@ -386,23 +390,21 @@
   <div class="layout">
     <!-- Левая панель -->
     <aside class="sidebar">
+      <div class="cyan-glow"></div>
       
-      <!-- Заголовок -->
-      <div class="hero-text">
-        <!-- Блок со стеклом и видео внутри -->
-        <div class="dream-wrapper">
+      <div class="hero-container">
+        <!-- Блок DREAM с фоновым видео и стеклянными буквами -->
+        <div class="dream-box">
           <video class="dream-video" autoplay loop muted playsinline>
-            <!-- Видео теперь живет только здесь, под стеклом -->
             <source src="bg-video.mp4" type="video/mp4">
           </video>
-          <div class="dream-glass">Dream</div>
+          <h1 class="dream-title">Dream</h1>
         </div>
         
-        <!-- Обычный текст на фоне -->
-        <div class="flashr-text">flashr.</div>
-        <p class="portfolio-badge">Portfolio</p>
+        <!-- Текст FLASHR на обычном фоне -->
+        <h1 class="flashr-title">flashr.</h1>
+        <div class="portfolio-badge">Portfolio</div>
       </div>
-
     </aside>
 
     <!-- Правая панель с контентом -->
