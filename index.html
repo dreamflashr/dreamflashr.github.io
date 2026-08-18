@@ -16,14 +16,17 @@
       --bg-main: #0a0a0a; 
       --bg-black: #000000; 
       --bg-card: #121212;
-      --accent-neon: #ffffff; /* Чистый белый акцент */
+      --accent-neon: #ffffff; 
       --text-main: #ffffff;
       --text-muted: #888888;
       
       --border-layout: rgba(255, 255, 255, 0.137); 
       --border-card: rgba(255, 255, 255, 0.05); 
-      --global-pad-x: clamp(20px, 12vw, 200px);
+      
+      --sidebar-width: 400px; /* Увеличили ширину сайдбара */
+      --global-pad-x: clamp(20px, 8vw, 150px);
     }
+    
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
@@ -32,9 +35,8 @@
       font-family: 'Libre Franklin', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
-      padding-bottom: 80px; 
+      padding-bottom: 60px; 
       display: flex;
-      flex-direction: column;
     }
 
     /* === СТАРТОВЫЙ ОВЕРЛЕЙ === */
@@ -50,74 +52,102 @@
     }
     @keyframes pulseText { 0% { opacity: 0.5; } 100% { opacity: 1; } }
 
-    /* === TOPBAR === */
-    .topbar {
-      width: 100%;
+    /* === SIDEBAR === */
+    .sidebar {
+      width: var(--sidebar-width);
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
       background-color: var(--bg-black);
-      border-bottom: 1px solid var(--border-layout);
-      padding: 4vh var(--global-pad-x) 4vh;
+      border-right: 1px solid var(--border-layout);
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      position: relative;
       z-index: 10;
       overflow: hidden; 
     }
 
-    .topbar-bg-container {
+    .sidebar-bg-container {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
     }
-    .topbar-video {
-      width: 100%; height: 100%; object-fit: cover; object-position: right center; 
-      filter: brightness(0.6) contrast(1.2); 
+    .sidebar-video {
+      width: 100%; height: 100%; object-fit: cover; object-position: center; 
+      filter: brightness(0.5) contrast(1.2); 
     }
-    .topbar-gradient {
+    .sidebar-gradient {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(90deg, #000000 0%, #000000 45%, rgba(0,0,0,0) 80%);
+      background: linear-gradient(180deg, #000000 0%, #000000 40%, rgba(0,0,0,0) 100%);
       z-index: 1;
     }
 
-    .dream-title, .flashr-title, .portfolio-badge { position: relative; z-index: 2; }
+    .sidebar-content {
+      position: relative;
+      z-index: 2;
+      padding: 6vh 40px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+    }
+
+    .branding {
+      margin-bottom: 60px;
+    }
 
     .dream-title {
-      font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 5.5rem); 
+      font-family: 'Syne', sans-serif; 
+      font-size: clamp(1.8rem, 2.5vw, 2.8rem); /* Уменьшили размер текста */
       font-weight: 800; line-height: 0.9; text-transform: uppercase;
       margin-bottom: -5px; color: rgba(255, 255, 255, 0.25); letter-spacing: -2px;
     }
     .flashr-title {
-      font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 5.5rem); 
+      font-family: 'Syne', sans-serif; 
+      font-size: clamp(1.8rem, 2.5vw, 2.8rem); /* Уменьшили размер текста */
       font-weight: 800; line-height: 0.9; color: var(--text-main); 
       text-transform: uppercase; letter-spacing: -2px;
       margin-bottom: 20px; margin-top: -5px;
     }
     .portfolio-badge {
-      font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700;
+      font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700;
       color: var(--bg-black); background-color: var(--accent-neon);
       display: inline-block; padding: 6px 16px; text-transform: uppercase; letter-spacing: 2px;
     }
 
-    /* === КОНТЕНТ === */
-    .main-content {
-      width: 100%;
-      padding: 6vh var(--global-pad-x) 80px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .top-nav {
-      display: flex; gap: 40px; margin-bottom: 40px;
-      border-bottom: 1px solid var(--border-layout); padding-bottom: 20px;
+    /* Навигация в сайдбаре */
+    .side-nav {
+      display: flex; 
+      flex-direction: column; 
+      gap: 25px;
+      align-items: flex-start;
     }
     .nav-btn {
       background: none; border: none; color: rgba(244, 244, 245, 0.3);
-      font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800;
+      font-family: 'Syne', sans-serif; 
+      font-size: 1rem; /* Чуть уменьшили кнопки */
+      font-weight: 800;
       letter-spacing: 2.5px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease;
+      text-align: left;
     }
     .nav-btn:hover { color: var(--text-main); letter-spacing: 3.5px; }
     .nav-btn.active { color: var(--accent-neon); }
 
-    .tab-content { display: none; }
+    /* === КОНТЕНТ === */
+    .main-content {
+      width: calc(100% - var(--sidebar-width));
+      margin-left: var(--sidebar-width); 
+      padding: 8vh var(--global-pad-x) 100px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tab-content { display: none; animation: fadeIn 0.4s ease; }
     .tab-content.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     .section-subtitle {
       font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800;
@@ -127,7 +157,7 @@
     /* === ЛЕГЕНДА РЕПОЗИТОРИЕВ === */
     .repo-legend {
       display: flex; 
-      flex-direction: column; /* Элементы легенды теперь с новой строки */
+      flex-direction: column; 
       gap: 12px; 
       margin-bottom: 40px;
     }
@@ -160,17 +190,13 @@
     .repo-title {
       font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800;
       color: var(--text-main); margin-bottom: 10px; transition: color 0.3s ease;
-      display: flex; align-items: center; gap: 10px; /* Flexbox для идеального выравнивания эмодзи */
+      display: flex; align-items: center; gap: 10px; 
       word-break: break-word; overflow-wrap: break-word;
     }
-    /* Фиксируем эмодзи, чтобы оно не сжималось и стояло по центру */
     .repo-title .emoji {
-      flex-shrink: 0;
-      font-size: 1.2rem;
-      display: inline-flex;
+      flex-shrink: 0; font-size: 1.2rem; display: inline-flex;
     }
     .repo-card:hover .repo-title { color: var(--accent-neon); }
-    
     .repo-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
 
     /* === СОЦСЕТИ === */
@@ -197,23 +223,44 @@
       font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px;
     }
 
-    /* Внутренние подзаголовки в тексте */
     .inner-subtitle {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--text-main);
-      margin: 40px 0 15px 0;
-      text-transform: uppercase;
-      letter-spacing: -0.5px;
+      font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800;
+      color: var(--text-main); margin: 40px 0 15px 0; text-transform: uppercase; letter-spacing: -0.5px;
     }
 
-    /* Мобилка */
-    @media (max-width: 768px) {
-      body { padding-bottom: 100px; }
-      .topbar-gradient { background: linear-gradient(90deg, #000000 0%, #000000 60%, rgba(0,0,0,0) 100%); }
-      .top-nav { gap: 15px; }
+    /* Мобилка: Возвращаем сайдбар наверх как шапку */
+    @media (max-width: 900px) {
+      body { flex-direction: column; padding-bottom: 100px; }
+      
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid var(--border-layout);
+      }
+      
+      .sidebar-gradient {
+        background: linear-gradient(90deg, #000000 0%, #000000 50%, rgba(0,0,0,0) 100%);
+      }
+
+      .sidebar-content {
+        padding: 4vh 5%;
+      }
+
+      .branding { margin-bottom: 30px; }
+
+      .side-nav {
+        flex-direction: row; gap: 15px; flex-wrap: wrap;
+      }
       .nav-btn { font-size: 0.95rem; letter-spacing: 1.5px; }
+
+      .main-content {
+        width: 100%;
+        margin-left: 0;
+        padding: 6vh 5% 40px;
+      }
+      
       .repos-list { grid-template-columns: 1fr; }
       .socials-grid { flex-direction: column; }
       .corporate-footer { flex-direction: column; height: auto; padding: 20px 5%; gap: 10px; }
@@ -228,26 +275,31 @@
     <div id="intro-text">Кликните, чтобы продолжить ❤️</div>
   </div>
 
-  <header class="topbar">
-    <div class="topbar-bg-container">
-      <video class="topbar-video" autoplay loop muted playsinline>
+  <aside class="sidebar">
+    <div class="sidebar-bg-container">
+      <video class="sidebar-video" autoplay loop muted playsinline>
         <source src="bg-video.mp4" type="video/mp4">
       </video>
-      <div class="topbar-gradient"></div>
+      <div class="sidebar-gradient"></div>
     </div>
-    <h1 class="dream-title">*Dream</h1>
-    <h1 class="flashr-title">flashr.</h1>
-    <div class="portfolio-badge">*Portfolio</div>
-  </header>
+    
+    <div class="sidebar-content">
+      <div class="branding">
+        <h1 class="dream-title">*Dream</h1>
+        <h1 class="flashr-title">flashr.</h1>
+        <div class="portfolio-badge">*Portfolio</div>
+      </div>
+
+      <nav class="side-nav">
+        <button class="nav-btn active" data-target="about">about me</button>
+        <button class="nav-btn" data-target="repos">repositories</button>
+        <button class="nav-btn" data-target="socials">socials</button>
+      </nav>
+    </div>
+  </aside>
 
   <main class="main-content">
-    <nav class="top-nav">
-      <button class="nav-btn active" data-target="about">about me</button>
-      <button class="nav-btn" data-target="repos">repositories</button>
-      <button class="nav-btn" data-target="socials">socials</button>
-    </nav>
-
-  <section id="about" class="tab-content active">
+    <section id="about" class="tab-content active">
       <h2 class="section-subtitle">IN SHORT</h2>
       <div class="about-text">
         <p>Привет. Моя страсть — бинарный анализ, реверс-инжиниринг и поиск уязвимостей. При этом я строгий визуальный перфекционист: для меня важно, чтобы софт не только безупречно работал на низком уровне, но и стильно выглядел. Обожаю эксперименты и не ищу легких путей, ведь самое интересное начинается там, где заканчиваются готовые мануалы.</p>
@@ -264,7 +316,6 @@
 
     <section id="repos" class="tab-content">
       <h2 class="section-subtitle">PROJECTS</h2>
-      <!-- Легенда -->
       <div class="repo-legend">
         <span class="legend-item">💜 — ЗАВАЙБКОДИЛ, НО БЫЛО ИНТЕРЕСНО!</span>
         <span class="legend-item">🐾 — РУЧКАМИ</span>
